@@ -1,0 +1,19 @@
+/* public/fonts/Chalkboy.ttf */
+/* public/fonts/CourierNew.ttf */
+@font-face {
+  font-family: 'Chalkboy';
+  src: url('/fonts/Chalkboy.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Courier New';
+  src: url('/fonts/CourierNew.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.active {
+  text-decoration: underline;
+}
