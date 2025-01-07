@@ -6,15 +6,15 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
 
 const images = [
-  { src: "/images/hero-1.PNG", alt: "Hero Image 1" },
-  { src: "/images/hero-2.PNG", alt: "Hero Image 2" },
-  { src: "/images/hero-3.PNG", alt: "Hero Image 3" },
-  { src: "/images/hero-4.PNG", alt: "Hero Image 4" },
-  { src: "/images/hero-5.PNG", alt: "Hero Image 5" },
-  { src: "/images/hero-6.PNG", alt: "Hero Image 6" },
-  { src: "/images/hero-7.PNG", alt: "Hero Image 7" },
-  { src: "/images/hero-8.PNG", alt: "Hero Image 8" },
-  { src: "/images/hero-9.PNG", alt: "Hero Image 9" },
+  { src: "/images/hero/hero-1.PNG", alt: "Hero Image 1" },
+  { src: "/images/hero/hero-2.PNG", alt: "Hero Image 2" },
+  { src: "/images/hero/hero-3.PNG", alt: "Hero Image 3" },
+  { src: "/images/hero/hero-4.PNG", alt: "Hero Image 4" },
+  { src: "/images/hero/hero-5.PNG", alt: "Hero Image 5" },
+  { src: "/images/hero/hero-6.PNG", alt: "Hero Image 6" },
+  { src: "/images/hero/hero-7.PNG", alt: "Hero Image 7" },
+  { src: "/images/hero/hero-8.PNG", alt: "Hero Image 8" },
+  { src: "/images/hero/hero-9.PNG", alt: "Hero Image 9" },
 ];
 
 const Carousel = () => {
