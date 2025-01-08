@@ -31,7 +31,7 @@ const TeamSection = () => {
   };
 
   return (
-    <Box as="section" py={16} bg="white" id="team">
+    <Box as="section" py={16} bg="white" id="team" w="full">
       {/* Section Title */}
       <Box textAlign="center" mb={20}>
         <Box position='relative' maxW="container.xl" mx="auto">
@@ -53,7 +53,7 @@ const TeamSection = () => {
       </Box>
 
       {/* Carousel */}
-      <Box position="relative" px={6}>
+      <Box position="relative">
         {/* Slider */}
         <Slider {...sliderSettings} >
           {teamImages.map((image, index) => (
@@ -63,8 +63,7 @@ const TeamSection = () => {
             >
               <Box
                 position="relative"
-                border="1px solid blue" // Optional border for debugging
-                h="250px" // Adjust the height as needed
+                h="250px"
                 overflow="hidden"
                 borderRadius="md"
                 boxShadow="md"
@@ -115,6 +114,7 @@ const TeamSection = () => {
           onClick={() => sliderRef.current?.slickNext()}
         />
       </Box>
+      {/* <Box id="contact" border="1px solid red"></Box> */}
     </Box>
   );
 };
