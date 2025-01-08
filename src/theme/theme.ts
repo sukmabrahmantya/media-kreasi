@@ -18,6 +18,7 @@ const theme = extendTheme({
   config,
   styles,
   fonts: {
+    arial: `'Arial', sans-serif`,
     arialBlack: `'Arial Black', sans-serif`,
     heading: `'Arial Narrow', 'Arial Black', sans-serif`,
     body: "'Courier New', monospace",
