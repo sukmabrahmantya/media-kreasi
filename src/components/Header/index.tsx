@@ -54,7 +54,7 @@ const Header = () => {
               to={item.toLowerCase()}
               smooth={true}
               duration={500}
-              offset={-70}
+              offset={-80}
               spy={true}
               activeClass="active"
             >

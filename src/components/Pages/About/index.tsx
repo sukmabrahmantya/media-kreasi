@@ -24,6 +24,18 @@ const AboutSection = () => {
       />
 
       <Box
+        as="img"
+        src="/images/semi-circle.png"
+        position="absolute"
+        top="50%"
+        right={0}
+        w="170px"
+        h="auto"
+        zIndex={-1}
+        alt="Background Left"
+      />
+
+      <Box
         position="absolute"
         bottom={0}
         left={0}
@@ -41,7 +53,7 @@ const AboutSection = () => {
         textAlign="center"
         px={6}
         gap={2}
-        maxW="container.lg"
+        maxW="container.xl"
         mx="auto"
       >
         <Image
