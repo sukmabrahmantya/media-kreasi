@@ -34,7 +34,7 @@ const TeamSection = () => {
     <Box as="section" py={16} bg="white" id="team" w="full">
       {/* Section Title */}
       <Box textAlign="center" mb={20}>
-        <Box position='relative' maxW="container.xl" mx="auto">
+        <Box position='relative' w="container.xl" px={4} mx="auto">
           <Divider borderWidth="1px" borderColor="black" />
           <AbsoluteCenter bg='white' px={12}>
             <Text

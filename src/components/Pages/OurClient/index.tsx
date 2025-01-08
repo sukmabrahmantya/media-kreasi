@@ -43,6 +43,8 @@ const OurClientSection = () => {
       py={10}
       id="our-client"
       bg="white"
+      px={4}
+      w="container.xl"
     >
 
       <Text
@@ -57,8 +59,8 @@ const OurClientSection = () => {
       </Text>
 
       <HStack
-        spacing={8}
-        w="container.xl"
+        gap={8}
+        w="full"
         alignItems="flex-end"
         justify="center"
         mx="auto"
@@ -78,7 +80,7 @@ const OurClientSection = () => {
       </HStack>
 
       <HStack
-        w="container.xl"
+        w="full"
         alignItems="flex-end"
         justify="center"
         justifyContent="space-between"
@@ -101,7 +103,7 @@ const OurClientSection = () => {
 
       <HStack
         spacing={8}
-        w="container.xl"
+        w="full"
         alignItems="flex-end"
         justify="center"
         mx="auto"
@@ -122,7 +124,7 @@ const OurClientSection = () => {
       </HStack >
 
       <HStack
-        w="container.xl"
+        w="full"
         alignItems="flex-end"
         justify="center"
         justifyContent="space-between"

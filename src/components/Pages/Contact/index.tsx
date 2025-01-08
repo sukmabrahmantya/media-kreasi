@@ -19,6 +19,8 @@ const ContactSection = () => {
       pb={14}
       id="contact"
       bg="#EFF4FE"
+      px={4}
+      w="full"
     >
       <Text
         fontSize="5rem"
@@ -34,12 +36,12 @@ const ContactSection = () => {
       <HStack
         spacing={10}
         mx="auto"
+        maxW="container.xl"
         border="1px solid #0367AB"
         borderRadius="20px"
         bg="white"
         p={8}
         alignItems="flex-start"
-        w="container.xl"
       >
         {/* Left Section: Contact Details */}
         <VStack align="flex-start" spacing={5} w="50%">

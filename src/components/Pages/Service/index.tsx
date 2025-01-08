@@ -9,6 +9,8 @@ const ServiceSection = () => {
       bg="#EFF4FE"
       position="relative"
       id="service"
+      maxW="container.xl"
+      px={4}
     >
       {/* Title */}
       <Text
@@ -24,7 +26,7 @@ const ServiceSection = () => {
       {/* Service Layout */}
       <Box
         mx="auto"
-        maxW="container.xl"
+        w="full"
         display="flex"
         justifyContent="space-around"
         alignItems="center"
@@ -61,6 +63,7 @@ const ServiceSection = () => {
           src="/images/equipment-2.png"
           alt="Equipment"
           borderRadius="md"
+          w="full"
           maxW="500px"
           // maxW="530px"
           h="auto"

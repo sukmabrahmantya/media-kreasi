@@ -70,6 +70,7 @@ const PortfolioSection = () => {
       py={10}
       bg="white"
       id="portfolio"
+      px={4}
     >
       {/* Section Title */}
       <Text
@@ -91,7 +92,6 @@ const PortfolioSection = () => {
           lg: "repeat(3, 1fr)",  // 3 columns for large screens
         }}
         gap={6}
-        px={6}
         mx="auto"
         maxW="container.xl"
       >
