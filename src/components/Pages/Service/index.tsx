@@ -1,11 +1,11 @@
-import { Box, Text, VStack, HStack, Image, UnorderedList, ListItem } from "@chakra-ui/react";
+import { Box, Text, VStack, Image, UnorderedList, ListItem, useDisclosure, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
 
 const ServiceSection = () => {
   return (
     <Box
       as="section"
-      pt={10}
-      pb={12}
+      pt={{ base: 5, md: 10 }}
+      pb={{ base: 5, md: 12 }}
       bg="#EFF4FE"
       position="relative"
       id="service"
@@ -14,7 +14,7 @@ const ServiceSection = () => {
     >
       {/* Title */}
       <Text
-        fontSize="5rem"
+        fontSize={{ base: "2xl", md: "5rem" }}
         fontWeight="400"
         color="black"
         fontFamily="chalkboy"
@@ -27,7 +27,7 @@ const ServiceSection = () => {
       <Box
         mx="auto"
         w="full"
-        display="flex"
+        display={{ base: "none", md: "flex" }}
         justifyContent="space-around"
         alignItems="center"
         flexWrap="wrap"
@@ -117,6 +117,100 @@ const ServiceSection = () => {
           </UnorderedList>
         </VStack>
       </Box>
+
+      <Box
+        display={{ base: "block", md: "none" }}
+        mt={4}
+      >
+        {/* Center Image */}
+        <Image
+          src="/images/equipment-2.png"
+          mx="auto"
+          alt="Equipment"
+          borderRadius="md"
+          w="full"
+          maxW="239px"
+          h="auto"
+          mb={4}
+        />
+
+        <Accordion allowToggle>
+          {/* Event & Experiential */}
+          <AccordionItem border="none">
+            <h2>
+              <AccordionButton color="#0367AB">
+                <Box flex="1" textAlign="left">
+                  <Text
+                    fontSize="md"
+                    fontFamily="arial"
+                    fontWeight="700"
+                  >
+                    Event & Experiential
+                  </Text>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel p={4}>
+              <UnorderedList color="#0367AB" fontSize="sm" lineHeight="21px">
+                <ListItem>Live event, concert</ListItem>
+                <ListItem>Virtual event</ListItem>
+                <ListItem>Conference, expo, seminar gathering</ListItem>
+              </UnorderedList>
+            </AccordionPanel>
+          </AccordionItem>
+
+          {/* Technical & Equipment */}
+          <AccordionItem borderColor="#94BFDC">
+            <h2>
+              <AccordionButton color="#0367AB">
+                <Box flex="1" textAlign="left">
+                  <Text
+                    fontSize="md"
+                    fontFamily="arial"
+                    fontWeight="700"
+                  >
+                    Technical & Equipment
+                  </Text>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel p={4}>
+              <UnorderedList color="#0367AB" fontSize="sm" lineHeight="21px">
+                <ListItem>Soundsystem</ListItem>
+                <ListItem>Lighting, LED screen, genset</ListItem>
+                <ListItem>Rigging truss</ListItem>
+              </UnorderedList>
+            </AccordionPanel>
+          </AccordionItem>
+
+          {/* Design & Build */}
+          <AccordionItem borderColor="#94BFDC">
+            <h2>
+              <AccordionButton color="#0367AB">
+                <Box flex="1" textAlign="left">
+                  <Text
+                    fontSize="md"
+                    fontFamily="arial"
+                    fontWeight="700"
+                  >
+                    Design & Build
+                  </Text>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel p={4}>
+              <UnorderedList color="#0367AB" fontSize="sm" lineHeight="21px">
+                <ListItem>Booth & backdrop production</ListItem>
+                <ListItem>3D modeling</ListItem>
+              </UnorderedList>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </Box>
+
     </Box>
   );
 };

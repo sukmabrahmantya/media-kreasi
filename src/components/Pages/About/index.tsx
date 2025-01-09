@@ -8,8 +8,9 @@ const AboutSection = () => {
       as="section"
       position="relative"
       w="full"
-      py={10}
+      py={{ base: 5, md: 10 }}
       id="about"
+      overflow="hidden"
     >
       <Box
         as="img"
@@ -17,7 +18,7 @@ const AboutSection = () => {
         position="absolute"
         top={5}
         left={0}
-        w="300px"
+        w={{ base: "80px", md: "300px" }}
         h="auto"
         zIndex={-1}
         alt="Background Left"
@@ -25,11 +26,11 @@ const AboutSection = () => {
 
       <Box
         as="img"
-        src="/images/semi-circle.png"
+        src="/svg/semi-circle.svg"
         position="absolute"
-        top="50%"
+        top={{ base: "65%", md: "50%" }}
         right={0}
-        w="170px"
+        w={{ base: "80px", md: "280px" }}
         h="auto"
         zIndex={-1}
         alt="Background Left"
@@ -51,9 +52,10 @@ const AboutSection = () => {
         align="center"
         justify="center"
         textAlign="center"
-        px={6}
-        gap={2}
+        px={{ base: 4, md: 6 }}
+        gap={1}
         maxW="container.xl"
+
         mx="auto"
       >
         <Image
@@ -61,13 +63,13 @@ const AboutSection = () => {
           alt="Media Kreasi Equipment"
           loading="lazy"
           w="full"
-          maxW="530px"
+          maxW={{ base: "239px", md: "530px" }}
           h="auto"
           objectFit="contain"
         />
 
         <Text
-          fontSize="5rem"
+          fontSize={{ base: "2xl", md: "5rem" }}
           fontWeight="400"
           color="black"
           fontFamily="chalkboy"
@@ -76,16 +78,33 @@ const AboutSection = () => {
         </Text>
 
         <Text
-          fontSize="xl"
+          display={{ base: "none", md: "block" }}
+          fontSize={{ base: "xs", md: "xl" }}
           color="#303135"
-          lineHeight="20px"
+          lineHeight={{ base: "14.4px", md: "20px" }}
           fontFamily="courier"
         >
           we are full service event production & provide event equipment,
           <br />
-          company base in Semarang & Yogyakarta.
+          company base in Semarang & Yogyakarta
           <br />
           experienced teamwork & skillfull man power.
+        </Text>
+
+        <Text
+          display={{ base: "block", md: "none" }}
+          fontSize={{ base: "xs", md: "xl" }}
+          color="#303135"
+          lineHeight={{ base: "14.4px", md: "20px" }}
+          fontFamily="courier"
+        >
+          we are full service event production & provide
+          <br />
+          event equipment, company base in Semarang
+          <br />
+          & Yogyakarta. experienced teamwork
+          <br />
+          & skillfull man power.
         </Text>
 
       </Flex>

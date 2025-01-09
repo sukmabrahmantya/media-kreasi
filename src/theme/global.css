@@ -17,3 +17,23 @@
 .active {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .active {
+    text-decoration: none;
+    background-color: #AED2EA;
+    color: #0367AB;
+    padding: 8px 12px;
+    border-radius: 8px; /* Optional for rounded corners */
+    width: 100%
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

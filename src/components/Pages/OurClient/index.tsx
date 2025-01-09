@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text, Grid, GridItem, Image, HStack } from "@chakra-ui/react";
+import { Box, Text, Grid, GridItem, Image, HStack, useBreakpointValue, VStack } from "@chakra-ui/react";
 
 const clients = {
   row1: [
@@ -37,18 +37,24 @@ const clients = {
 };
 
 const OurClientSection = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const combinedRow1 = [...clients.row1, ...clients.row3];
+  const combinedRow2 = [...clients.row2, ...clients.row4];
+  const infiniteRow1 = [...combinedRow1, ...combinedRow1, ...combinedRow1, ...combinedRow1];
+  const infiniteRow2 = [...combinedRow2, ...combinedRow2, ...combinedRow2, ...combinedRow2];
+
   return (
     <Box
       as="section"
-      py={10}
+      py={{ base: 5, md: 10 }}
       id="our-client"
       bg="white"
-      px={4}
-      w="container.xl"
+      px={{ base: 0, md: 4 }}
+      overflow="hidden"
     >
 
       <Text
-        fontSize="5rem"
+        fontSize={{ base: "2xl", md: "5rem" }}
         fontWeight="400"
         color="black"
         fontFamily="chalkboy"
@@ -58,91 +64,87 @@ const OurClientSection = () => {
         OUR CLIENT
       </Text>
 
-      <HStack
-        gap={8}
-        w="full"
-        alignItems="flex-end"
-        justify="center"
-        mx="auto"
-        mb={8}
-      >
-        {clients.row1.map((client, index) => (
-          <Box key={index} w="full">
-            <Image
-              src={client.src}
-              alt={client.alt}
-              w="100%"
-              h="auto"
-              objectFit="contain"
-            />
+      {isMobile ? (
+        <>
+          <Box
+            display="flex"
+            animation="scroll 15s linear infinite"
+            whiteSpace="nowrap"
+            mb={4}
+          >
+            {infiniteRow1.map((client, index) => (
+              <Box
+                key={index}
+                mx={3}
+                flexShrink={0}
+                display="inline-block"
+                w="auto"
+                alignSelf="flex-end"
+              >
+                <Image
+                  src={client.src}
+                  alt={client.alt}
+                  w="100%"
+                  h="67px"
+                  objectFit="contain"
+                />
+              </Box>
+            ))}
           </Box>
-        ))}
-      </HStack>
 
-      <HStack
-        w="full"
-        alignItems="flex-end"
-        justify="center"
-        justifyContent="space-between"
-        mx="auto"
-        mb={8}
-      >
-        {clients.row2.map((client, index) => (
-          <Box key={index} h="full">
-            <Image
-              loading="lazy"
-              src={client.src}
-              alt={client.alt}
-              w="auto"
-              h="100px"
-              objectFit="contain"
-            />
+          <Box
+            display="flex"
+            animation="scroll 20s linear infinite"
+            whiteSpace="nowrap"
+          >
+            {infiniteRow2.map((client, index) => (
+              <Box
+                key={index}
+                mx={3}
+                flexShrink={0}
+                display="inline-block"
+                h="67px"
+              >
+                <Image
+                  src={client.src}
+                  alt={client.alt}
+                  w="auto"
+                  h="full"
+                  objectFit="contain"
+                />
+              </Box>
+            ))}
           </Box>
-        ))}
-      </HStack>
-
-      <HStack
-        spacing={8}
-        w="full"
-        alignItems="flex-end"
-        justify="center"
-        mx="auto"
-        mb={8}
-      >
-        {clients.row3.map((client, index) => (
-          <Box key={index} w="full" >
-            <Image
-              loading="lazy"
-              src={client.src}
-              alt={client.alt}
-              w="auto"
-              h="100px"
-              objectFit="contain"
-            />
-          </Box>
-        ))}
-      </HStack >
-
-      <HStack
-        w="full"
-        alignItems="flex-end"
-        justify="center"
-        justifyContent="space-between"
-        mx="auto"
-      >
-        {clients.row4.map((client, index) => (
-          <Box key={index} h="full">
-            <Image
-              loading="lazy"
-              src={client.src}
-              alt={client.alt}
-              w="auto"
-              h="100px"
-              objectFit="contain"
-            />
-          </Box>
-        ))}
-      </HStack>
+        </>
+      ) : (
+        // Desktop: Row-based grid
+        <VStack spacing={8}>
+          {Object.values(clients).map((row, rowIndex) => (
+            <HStack
+              key={rowIndex}
+              spacing={8}
+              w="full"
+              justifyContent="space-between"
+            >
+              {row.map((client, index) => (
+                <Box
+                  key={index}
+                  h={rowIndex % 2 == 0 ? "full" : "auto"}
+                  w={rowIndex % 2 !== 0 ? "auto" : "full"}
+                >
+                  <Image
+                    src={client.src}
+                    alt={client.alt}
+                    w="100%"
+                    h="100px"
+                    objectFit="contain"
+                  />
+                </Box>
+              ))}
+            </HStack>
+          ))}
+        </VStack>
+      )}
     </Box >
   );
 };

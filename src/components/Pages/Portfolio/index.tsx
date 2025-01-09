@@ -67,14 +67,14 @@ const PortfolioSection = () => {
     <Box
       as="section"
       w="full"
-      py={10}
+      py={{ base: 5, md: 10 }}
       bg="white"
       id="portfolio"
       px={4}
     >
       {/* Section Title */}
       <Text
-        fontSize="5rem"
+        fontSize={{ base: "2xl", md: "5rem" }}
         fontWeight="400"
         color="black"
         fontFamily="chalkboy"
@@ -87,11 +87,11 @@ const PortfolioSection = () => {
       {/* Portfolio Grid */}
       <Grid
         templateColumns={{
-          base: "repeat(1, 1fr)", // 1 column for small screens
+          base: "repeat(2, 1fr)", // 1 column for small screens
           md: "repeat(2, 1fr)",  // 2 columns for medium screens
           lg: "repeat(3, 1fr)",  // 3 columns for large screens
         }}
-        gap={6}
+        gap={{ base: 4, md: 6 }}
         mx="auto"
         maxW="container.xl"
       >
@@ -119,7 +119,7 @@ const PortfolioSection = () => {
             {/* Title Overlay */}
             < Flex
               position="absolute"
-              bottom={8}
+              bottom={{ base: 2, md: 8 }}
               left={0}
               w="full"
               color="white"
@@ -128,7 +128,7 @@ const PortfolioSection = () => {
               align="center"
             >
               <Text
-                fontSize="2xl"
+                fontSize={{ base: "xs", md: "2xl" }}
                 fontWeight="400"
                 textAlign="center"
                 fontFamily="arialBlack"

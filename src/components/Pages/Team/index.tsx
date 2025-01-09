@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text, IconButton, Image, Divider, AbsoluteCenter } from "@chakra-ui/react";
+import { Box, Text, IconButton, Image, Divider, AbsoluteCenter, useBreakpointValue } from "@chakra-ui/react";
 import Slider from "react-slick";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
@@ -16,13 +16,15 @@ const teamImages = [
 
 const TeamSection = () => {
   const sliderRef = useRef<Slider | null>(null);
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
 
   const sliderSettings = {
     infinite: true,
     speed: 500,
-    centerMode: true,
-    centerPadding: "260px",
-    slidesToShow: 2,
+    centerMode: !isMobile, // Disable center mode on mobile
+    centerPadding: isMobile ? "0px" : "260px", // No padding for mobile
+    slidesToShow: isMobile ? 1 : 2, // Show 1 slide on mobile, 2 on desktop
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -31,30 +33,49 @@ const TeamSection = () => {
   };
 
   return (
-    <Box as="section" py={16} bg="white" id="team" w="full">
+    <Box
+      as="section"
+      py={{ base: 5, md: 16 }}
+      bg="white"
+      id="team"
+      w="full"
+    >
       {/* Section Title */}
-      <Box textAlign="center" mb={20}>
-        <Box position='relative' w="container.xl" px={4} mx="auto">
-          <Divider borderWidth="1px" borderColor="black" />
-          <AbsoluteCenter bg='white' px={12}>
-            <Text
-              fontSize="5rem"
-              fontWeight="400"
-              color="black"
-              fontFamily="chalkboy"
-              textAlign="center"
-              whiteSpace="nowrap"
-              overflow="hidden"
-            >
-              TEAM BEHIND THE SHOW
-            </Text>
-          </AbsoluteCenter>
+      {!isMobile ?
+        <Box textAlign="center" mb={20}>
+          <Box position='relative' maxW="container.xl" px={4} mx="auto">
+            <Divider borderWidth="1px" borderColor="black" />
+            <AbsoluteCenter bg='white' px={12}>
+              <Text
+                fontSize="5rem"
+                fontWeight="400"
+                color="black"
+                fontFamily="chalkboy"
+                textAlign="center"
+                whiteSpace={{ base: "normal", md: "nowrap" }}
+                overflow="hidden"
+              >
+                TEAM BEHIND THE SHOW
+              </Text>
+            </AbsoluteCenter>
+          </Box>
         </Box>
-      </Box>
+        :
+        <Text
+          fontSize={{ base: "2xl", md: "5rem" }}
+          fontWeight="400"
+          color="black"
+          fontFamily="chalkboy"
+          align="center"
+          lineHeight="24px"
+          mb={6}
+        >
+          TEAM BEHIND <br /> THE SHOW
+        </Text>
+      }
 
       {/* Carousel */}
-      <Box position="relative">
-        {/* Slider */}
+      <Box position="relative" w="full" mb={{ base: 8, md: "unset" }}>
         <Slider {...sliderSettings} >
           {teamImages.map((image, index) => (
             <Box
@@ -79,13 +100,11 @@ const TeamSection = () => {
                   }}
                 />
               </Box>
-
             </Box>
           ))}
         </Slider>
 
-        {/* Custom Arrows */}
-        <IconButton
+        {!isMobile && (<IconButton
           aria-label="Previous"
           icon={<FaChevronLeft />}
           position="absolute"
@@ -98,8 +117,8 @@ const TeamSection = () => {
           _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
           borderRadius="full"
           onClick={() => sliderRef.current?.slickPrev()}
-        />
-        <IconButton
+        />)}
+        {!isMobile && (<IconButton
           aria-label="Next"
           icon={<FaChevronRight />}
           position="absolute"
@@ -112,9 +131,8 @@ const TeamSection = () => {
           _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
           borderRadius="full"
           onClick={() => sliderRef.current?.slickNext()}
-        />
+        />)}
       </Box>
-      {/* <Box id="contact" border="1px solid red"></Box> */}
     </Box>
   );
 };

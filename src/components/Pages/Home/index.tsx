@@ -89,14 +89,14 @@ const Carousel = () => {
       <Box
         position="absolute"
         w="full"
-        bottom="10%"
+        bottom={{ base: "15%", md: "10%" }}
         left="50%"
         transform="translateX(-50%)"
         zIndex="2"
         textAlign="center"
       >
         <Text
-          fontSize="4xl"
+          fontSize={{ base: "md", md: "4xl" }}
           fontWeight="bold"
           color="white"
           fontFamily="arialBlack"
