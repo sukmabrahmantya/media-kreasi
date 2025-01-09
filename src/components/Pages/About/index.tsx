@@ -59,7 +59,7 @@ const AboutSection = () => {
         mx="auto"
       >
         <Image
-          src="/images/equipment.png"
+          src="/images/equipment.webp"
           alt="Media Kreasi Equipment"
           loading="lazy"
           w="full"

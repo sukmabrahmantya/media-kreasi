@@ -1,24 +1,25 @@
 "use client";
 
-import { Box, Text, IconButton } from "@chakra-ui/react";
+import { Box, Text, IconButton, useBreakpointValue } from "@chakra-ui/react";
 import Slider, { LazyLoadTypes } from "react-slick";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
 
 const images = [
-  { src: "/images/hero/hero-1.png", alt: "Hero Image 1" },
-  { src: "/images/hero/hero-2.png", alt: "Hero Image 2" },
-  { src: "/images/hero/hero-3.png", alt: "Hero Image 3" },
-  { src: "/images/hero/hero-4.png", alt: "Hero Image 4" },
-  { src: "/images/hero/hero-5.png", alt: "Hero Image 5" },
-  { src: "/images/hero/hero-6.png", alt: "Hero Image 6" },
-  { src: "/images/hero/hero-7.png", alt: "Hero Image 7" },
-  { src: "/images/hero/hero-8.png", alt: "Hero Image 8" },
-  { src: "/images/hero/hero-9.png", alt: "Hero Image 9" },
+  { src: "/images/hero/hero-1.webp", alt: "Hero Image 1" },
+  { src: "/images/hero/hero-2.webp", alt: "Hero Image 2" },
+  { src: "/images/hero/hero-3.webp", alt: "Hero Image 3" },
+  { src: "/images/hero/hero-4.webp", alt: "Hero Image 4" },
+  { src: "/images/hero/hero-5.webp", alt: "Hero Image 5" },
+  { src: "/images/hero/hero-6.webp", alt: "Hero Image 6" },
+  { src: "/images/hero/hero-7.webp", alt: "Hero Image 7" },
+  { src: "/images/hero/hero-8.webp", alt: "Hero Image 8" },
+  { src: "/images/hero/hero-9.webp", alt: "Hero Image 9" },
 ];
 
 const Carousel = () => {
   const sliderRef = useRef<Slider | null>(null);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const settings = {
     infinite: true,
@@ -51,6 +52,7 @@ const Carousel = () => {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
+                objectPosition: isMobile ? "center" : "center bottom "
               }}
             />
           </Box>
@@ -89,7 +91,7 @@ const Carousel = () => {
       <Box
         position="absolute"
         w="full"
-        bottom={{ base: "15%", md: "10%" }}
+        bottom={{ base: "15%", md: "17%" }}
         left="50%"
         transform="translateX(-50%)"
         zIndex="2"

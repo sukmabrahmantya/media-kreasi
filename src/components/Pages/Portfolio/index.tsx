@@ -6,38 +6,38 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Slider, { LazyLoadTypes } from "react-slick";
 
 const generateGallery = (folder: string, count: number) => {
-  return Array.from({ length: count }, (_, i) => `/images/${folder}/${i + 1}.png`);
+  return Array.from({ length: count }, (_, i) => `/images/${folder}/${i + 1}.webp`);
 };
 
 const portfolioItems = [
   {
     title: "Live Event",
-    src: "/images/tumb-live-event.png",
+    src: "/images/tumb-live-event.webp",
     gallery: generateGallery("live-event", 22)
   },
   {
     title: "Gathering",
-    src: "/images/tumb-gathering.png",
+    src: "/images/tumb-gathering.webp",
     gallery: generateGallery("gathering", 8)
   },
   {
     title: "Exhibition",
-    src: "/images/tumb-exhibition.png",
+    src: "/images/tumb-exhibition.webp",
     gallery: generateGallery("exhibition", 8)
   },
   {
     title: "Booth",
-    src: "/images/tumb-booth.png",
+    src: "/images/tumb-booth.webp",
     gallery: generateGallery("booth", 9)
   },
   {
     title: "Backdrop",
-    src: "/images/tumb-backdrop.png",
+    src: "/images/tumb-backdrop.webp",
     gallery: generateGallery("backdrop", 16)
   },
   {
     title: "3D Design",
-    src: "/images/tumb-3d.png",
+    src: "/images/tumb-3d.webp",
     gallery: generateGallery("3d", 16)
   },
 ];

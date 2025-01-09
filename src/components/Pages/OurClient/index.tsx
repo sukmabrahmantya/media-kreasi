@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text, Grid, GridItem, Image, HStack, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { Box, Text, Image, HStack, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
 const clients = {
@@ -76,7 +76,7 @@ const OurClientSection = () => {
           <>
             <Box
               display="flex"
-              animation="scroll 15s linear infinite"
+              animation="scroll2 15s linear infinite"
               whiteSpace="nowrap"
               mb={4}
             >

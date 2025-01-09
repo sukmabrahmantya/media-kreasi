@@ -6,12 +6,12 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
 
 const teamImages = [
-  { src: "/images/team/team-1.png", alt: "Team Image 1" },
-  { src: "/images/team/team-2.png", alt: "Team Image 2" },
-  { src: "/images/team/team-3.png", alt: "Team Image 3" },
-  { src: "/images/team/team-4.png", alt: "Team Image 4" },
-  { src: "/images/team/team-5.png", alt: "Team Image 5" },
-  { src: "/images/team/team-6.png", alt: "Team Image 6" },
+  { src: "/images/team/team-1.webp", alt: "Team Image 1" },
+  { src: "/images/team/team-2.webp", alt: "Team Image 2" },
+  { src: "/images/team/team-3.webp", alt: "Team Image 3" },
+  { src: "/images/team/team-4.webp", alt: "Team Image 4" },
+  { src: "/images/team/team-5.webp", alt: "Team Image 5" },
+  { src: "/images/team/team-6.webp", alt: "Team Image 6" },
 ];
 
 const TeamSection = () => {
