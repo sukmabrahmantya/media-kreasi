@@ -21,11 +21,7 @@
 @media (max-width: 768px) {
   .active {
     text-decoration: none;
-    background-color: #AED2EA;
     color: #0367AB;
-    padding: 8px 12px;
-    border-radius: 8px; /* Optional for rounded corners */
-    width: 100%
   }
 }
 

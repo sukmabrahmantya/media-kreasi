@@ -92,7 +92,7 @@ const Header = () => {
         </Flex>
 
         {/* Hamburger Menu for mobile */}
-        <Menu isOpen={isOpen}>
+        <Menu isOpen={isOpen} onClose={onClose} autoSelect={false}>
           <MenuButton
             as={IconButton}
             aria-label="Options"
@@ -131,8 +131,12 @@ const Header = () => {
                 offset={-80}
                 spy={true}
                 activeClass="active"
+                onSetActive={onClose}
               >
-                <MenuItem key={item}>
+                <MenuItem
+                  key={item}
+                  onClick={onClose}
+                >
                   <Heading
                     fontSize="md"
                     fontWeight={400}
@@ -140,14 +144,6 @@ const Header = () => {
                     cursor="pointer"
                     _hover={{
                       color: "#0367AB",
-                    }}
-                    sx={{
-                      "&.active": {
-                        bg: { base: "#AED2EA", md: "transparent" },
-                        color: { base: "black", md: "inherit" },
-                        textDecoration: { base: "none", md: "underline" },
-                        borderRadius: { base: "8px", md: "none" },
-                      },
                     }}
                   >
                     {item}

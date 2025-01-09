@@ -86,13 +86,12 @@ const OurClientSection = () => {
                   mx={3}
                   flexShrink={0}
                   display="inline-block"
-                  w="auto"
-                  alignSelf="flex-end"
+                  w="120px"
                 >
                   <Image
                     src={client.src}
                     alt={client.alt}
-                    w="100%"
+                    w="auto"
                     h="67px"
                     objectFit="contain"
                   />
