@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Text, Grid, GridItem, Image, HStack, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 
 const clients = {
   row1: [
@@ -40,8 +41,14 @@ const OurClientSection = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const combinedRow1 = [...clients.row1, ...clients.row3];
   const combinedRow2 = [...clients.row2, ...clients.row4];
-  const infiniteRow1 = [...combinedRow1, ...combinedRow1, ...combinedRow1, ...combinedRow1];
-  const infiniteRow2 = [...combinedRow2, ...combinedRow2, ...combinedRow2, ...combinedRow2];
+  const infiniteRow1 = [...combinedRow1, ...combinedRow1];
+  const infiniteRow2 = [...combinedRow2, ...combinedRow2];
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Box
@@ -65,57 +72,59 @@ const OurClientSection = () => {
       </Text>
 
       {isMobile ? (
-        <>
-          <Box
-            display="flex"
-            animation="scroll 15s linear infinite"
-            whiteSpace="nowrap"
-            mb={4}
-          >
-            {infiniteRow1.map((client, index) => (
-              <Box
-                key={index}
-                mx={3}
-                flexShrink={0}
-                display="inline-block"
-                w="auto"
-                alignSelf="flex-end"
-              >
-                <Image
-                  src={client.src}
-                  alt={client.alt}
-                  w="100%"
-                  h="67px"
-                  objectFit="contain"
-                />
-              </Box>
-            ))}
-          </Box>
-
-          <Box
-            display="flex"
-            animation="scroll 20s linear infinite"
-            whiteSpace="nowrap"
-          >
-            {infiniteRow2.map((client, index) => (
-              <Box
-                key={index}
-                mx={3}
-                flexShrink={0}
-                display="inline-block"
-                h="67px"
-              >
-                <Image
-                  src={client.src}
-                  alt={client.alt}
+        isClient && (
+          <>
+            <Box
+              display="flex"
+              animation="scroll 15s linear infinite"
+              whiteSpace="nowrap"
+              mb={4}
+            >
+              {infiniteRow1.map((client, index) => (
+                <Box
+                  key={index}
+                  mx={3}
+                  flexShrink={0}
+                  display="inline-block"
                   w="auto"
-                  h="full"
-                  objectFit="contain"
-                />
-              </Box>
-            ))}
-          </Box>
-        </>
+                  alignSelf="flex-end"
+                >
+                  <Image
+                    src={client.src}
+                    alt={client.alt}
+                    w="100%"
+                    h="67px"
+                    objectFit="contain"
+                  />
+                </Box>
+              ))}
+            </Box>
+
+            <Box
+              display="flex"
+              animation="scroll 20s linear infinite"
+              whiteSpace="nowrap"
+            >
+              {infiniteRow2.map((client, index) => (
+                <Box
+                  key={index}
+                  mx={3}
+                  flexShrink={0}
+                  display="inline-block"
+                  h="67px"
+                >
+                  <Image
+                    src={client.src}
+                    alt={client.alt}
+                    w="auto"
+                    h="full"
+                    objectFit="contain"
+                  />
+                </Box>
+              ))}
+            </Box>
+          </>
+        )
       ) : (
         // Desktop: Row-based grid
         <VStack spacing={8}>
