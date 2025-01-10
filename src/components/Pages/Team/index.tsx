@@ -102,8 +102,6 @@ const TeamSection = () => {
               px={4}
               onClick={() => handleImageClick(index)}
               cursor="pointer"
-              _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
-
             >
               <Box
                 position="relative"
