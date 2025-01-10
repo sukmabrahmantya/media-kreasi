@@ -1,9 +1,9 @@
 "use client";
 
-import { Box, Text, IconButton, Image, Divider, AbsoluteCenter, useBreakpointValue } from "@chakra-ui/react";
-import Slider from "react-slick";
+import { Box, Text, IconButton, Image, Divider, AbsoluteCenter, useBreakpointValue, useDisclosure, Modal, ModalOverlay, ModalContent, ModalCloseButton } from "@chakra-ui/react";
+import Slider, { LazyLoadTypes } from "react-slick";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const teamImages = [
   { src: "/images/team/team-1.webp", alt: "Team Image 1" },
@@ -15,21 +15,40 @@ const teamImages = [
 ];
 
 const TeamSection = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const sliderRef = useRef<Slider | null>(null);
+  const sliderModalRef = useRef<Slider | null>(null);
   const isMobile = useBreakpointValue({ base: true, md: false });
-
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   const sliderSettings = {
     infinite: true,
     speed: 500,
-    centerMode: !isMobile, // Disable center mode on mobile
-    centerPadding: isMobile ? "0px" : "260px", // No padding for mobile
-    slidesToShow: isMobile ? 1 : 2, // Show 1 slide on mobile, 2 on desktop
+    centerMode: !isMobile,
+    centerPadding: isMobile ? "0px" : "260px",
+    slidesToShow: isMobile ? 1 : 2,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     dots: true,
     arrows: false,
+  };
+
+  const modalSliderSettings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: selectedIndex,
+    arrows: false,
+    // autoplay: true,
+    lazyLoad: "ondemand" as LazyLoadTypes,
+    autoplaySpeed: 5000
+  };
+
+  const handleImageClick = (index: number) => {
+    setSelectedIndex(index);
+    onOpen();
   };
 
   return (
@@ -81,6 +100,10 @@ const TeamSection = () => {
             <Box
               key={index}
               px={4}
+              onClick={() => handleImageClick(index)}
+              cursor="pointer"
+              _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
+
             >
               <Box
                 position="relative"
@@ -133,6 +156,75 @@ const TeamSection = () => {
           onClick={() => sliderRef.current?.slickNext()}
         />)}
       </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose} size="container.xl" isCentered>
+        <ModalOverlay />
+        <ModalContent boxShadow="none" borderRadius="lg" w="container.xl" overflow="hidden" bg="transparent" pt={5} pb={2}>
+          <Box
+            position="absolute"
+            top="0"
+            right="0"
+            w="full"
+            h="full"
+            zIndex="1"
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="center"
+            color="black"
+          >
+            <ModalCloseButton
+              color="white"
+              bg="rgba(0, 0, 0, 0.6)"
+              _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
+            />
+          </Box>
+
+          <Box position="relative" w="full">
+            <Slider {...modalSliderSettings} ref={sliderModalRef}>
+              {teamImages.map((image, index) => (
+                <Box key={index}>
+                  <Image
+                    src={image.src}
+                    alt={`Gallery Image ${index + 1}`}
+                    w="full"
+                    h="80vh"
+                    objectFit="contain"
+                  />
+                </Box>
+              ))}
+            </Slider>
+
+            <IconButton
+              aria-label="Previous"
+              icon={<FaChevronLeft />}
+              position="absolute"
+              top="50%"
+              left="5%"
+              transform="translateY(-50%)"
+              zIndex="10"
+              bg="rgba(255, 255, 255, 0.6)"
+              color="black"
+              _hover={{ bg: "rgba(255, 255, 255, 0.8)" }}
+              borderRadius="full"
+              onClick={() => sliderModalRef.current?.slickPrev()}
+            />
+            <IconButton
+              aria-label="Next"
+              icon={<FaChevronRight />}
+              position="absolute"
+              top="50%"
+              right="5%"
+              transform="translateY(-50%)"
+              zIndex="10"
+              bg="rgba(255, 255, 255, 0.6)"
+              color="black"
+              _hover={{ bg: "rgba(255, 255, 255, 0.8)" }}
+              borderRadius="full"
+              onClick={() => sliderModalRef.current?.slickNext()}
+            />
+          </Box>
+        </ModalContent>
+      </Modal >
     </Box>
   );
 };
