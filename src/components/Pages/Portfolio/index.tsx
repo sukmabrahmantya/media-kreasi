@@ -45,11 +45,16 @@ const portfolioItems = [
 const PortfolioSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentGallery, setCurrentGallery] = useState<string[]>([]);
+  const [hoverGallery, setHoverGallery] = useState<string[] | null>(null);
   const sliderRef = useRef<Slider | null>(null);
 
   const handleImageClick = (gallery: string[]) => {
     setCurrentGallery(gallery);
     onOpen();
+  };
+
+  const handleHover = (gallery: string[] | null) => {
+    setHoverGallery(gallery);
   };
 
   const mainSliderSettings = {
@@ -61,6 +66,17 @@ const PortfolioSection = () => {
     autoplay: true,
     lazyLoad: "ondemand" as LazyLoadTypes,
     autoplaySpeed: 5000
+  };
+
+  const hoverSliderSettings = {
+    infinite: true,
+    speed: 300,
+    autoplay: true,
+    autoplaySpeed: 1500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    lazyLoad: "ondemand" as LazyLoadTypes,
   };
 
   return (
@@ -105,26 +121,45 @@ const PortfolioSection = () => {
             _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
             onClick={() => handleImageClick(item.gallery)}
             cursor="pointer"
+            onMouseEnter={() => handleHover(item.gallery)}
+            onMouseLeave={() => handleHover(null)}
           >
-            {/* Image */}
-            <Image
-              src={item.src}
-              alt={item.title}
-              loading="lazy"
-              w="full"
-              h="auto"
-              objectFit="cover"
-            />
+            {hoverGallery === item.gallery ? (
+              <Slider {...hoverSliderSettings}>
+                {item.gallery.map((src, idx) => (
+                  <Image
+                    key={idx}
+                    src={src}
+                    alt={`${item.title} - ${idx + 1}`}
+                    loading="lazy"
+                    w="full"
+                    h="auto"
+                    objectFit="cover"
+                  />
+                ))}
+              </Slider>
+            ) : (
+              // Image 
+              <Image
+                src={item.src}
+                alt={item.title}
+                loading="lazy"
+                w="full"
+                h="auto"
+                objectFit="cover"
+              />
+            )}
 
             {/* Title Overlay */}
             < Flex
               position="absolute"
-              bottom={{ base: 2, md: 8 }}
+              top={{ base: 1, md: 5 }}
               left={0}
               w="full"
               color="white"
               py={2}
               justify="center"
+              opacity={0.8}
               align="center"
             >
               <Text
@@ -135,6 +170,29 @@ const PortfolioSection = () => {
                 textTransform="uppercase"
               >
                 {item.title}
+              </Text>
+            </Flex>
+
+            {/* See More Label */}
+            <Flex
+              position="absolute"
+              bottom={{ base: 1, md: 8 }}
+              left={0}
+              w="full"
+              color="white"
+              py={2}
+              justify="center"
+              align="center"
+              opacity={0.8}
+            >
+              <Text
+                fontSize={{ base: "xs", md: "xl" }}
+                textAlign="center"
+                fontFamily="heading"
+                textTransform="lowercase"
+              // _hover={{ textDecoration: "underline" }}
+              >
+                See More
               </Text>
             </Flex>
           </GridItem>
