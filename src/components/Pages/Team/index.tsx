@@ -95,7 +95,7 @@ const TeamSection = () => {
 
       {/* Carousel */}
       <Box position="relative" w="full" mb={{ base: 8, md: "unset" }}>
-        <Slider {...sliderSettings} >
+        <Slider {...sliderSettings} ref={sliderRef}>
           {teamImages.map((image, index) => (
             <Box
               key={index}
