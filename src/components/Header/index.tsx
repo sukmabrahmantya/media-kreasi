@@ -38,7 +38,7 @@ const Header = () => {
       left={0}
       w="100%"
       zIndex={10}
-      bg={isHome ? "transparent" : "#AED2EA"}
+      bg={isHome ? "transparent" : "#043A60"}
       transition="background-color 0.3s ease"
       boxShadow={isHome ? "none" : "sm"}
     >
@@ -48,12 +48,12 @@ const Header = () => {
         align="center"
         justify="space-between"
         px={4}
-        py={{ base: 2, md: 4 }}
+        py={{ base: 2, md: 2 }}
         color="white"
       >
         {/* Logo */}
         <Image
-          src="/images/Mediakreasi.PNG"
+          src="/svg/logo.svg"
           alt="Logo"
           height={{ base: "26px", md: "56px" }}
           objectFit="contain"
