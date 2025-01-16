@@ -1,9 +1,15 @@
 "use client";
 
-import { Box, Text, Grid, GridItem, Image, Flex, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, IconButton } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { Box, Text, Grid, GridItem, Image, Flex, Spinner, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation, EffectFade, Thumbs, FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import 'swiper/css/effect-fade';
+import 'swiper/css/thumbs';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Slider, { LazyLoadTypes } from "react-slick";
 
 const generateGallery = (folder: string, count: number) => {
   return Array.from({ length: count }, (_, i) => `/images/${folder}/${i + 1}.webp`);
@@ -13,81 +19,54 @@ const portfolioItems = [
   {
     title: "Live Event",
     src: "/images/tumb-live-event.webp",
-    gallery: generateGallery("live-event", 22)
+    gallery: generateGallery("live-event", 22),
   },
   {
     title: "Gathering",
     src: "/images/tumb-gathering.webp",
-    gallery: generateGallery("gathering", 8)
+    gallery: generateGallery("gathering", 8),
   },
   {
     title: "Exhibition",
     src: "/images/tumb-exhibition.webp",
-    gallery: generateGallery("exhibition", 8)
+    gallery: generateGallery("exhibition", 8),
   },
   {
     title: "Booth",
     src: "/images/tumb-booth.webp",
-    gallery: generateGallery("booth", 9)
+    gallery: generateGallery("booth", 9),
   },
   {
     title: "Backdrop",
     src: "/images/tumb-backdrop.webp",
-    gallery: generateGallery("backdrop", 16)
+    gallery: generateGallery("backdrop", 16),
   },
   {
     title: "3D Design",
     src: "/images/tumb-3d.webp",
-    gallery: generateGallery("3d", 16)
+    gallery: generateGallery("3d", 16),
   },
 ];
 
 const PortfolioSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentGallery, setCurrentGallery] = useState<string[]>([]);
   const [hoverGallery, setHoverGallery] = useState<string[] | null>(null);
-  const sliderRef = useRef<Slider | null>(null);
+  const [currentGallery, setCurrentGallery] = useState<string[]>([]);
+  const [initialSlide, setInitialSlide] = useState(0);
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const handleImageClick = (gallery: string[]) => {
+
+  const handleImageClick = (gallery: string[], index: number) => {
     setCurrentGallery(gallery);
+    setInitialSlide(index); // Set the initial slide index
     onOpen();
   };
 
-  const handleHover = (gallery: string[] | null) => {
-    setHoverGallery(gallery);
-  };
-
-  const mainSliderSettings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    autoplay: true,
-    lazyLoad: "ondemand" as LazyLoadTypes,
-    autoplaySpeed: 5000
-  };
-
-  const hoverSliderSettings = {
-    infinite: true,
-    speed: 300,
-    autoplay: true,
-    autoplaySpeed: 1500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    lazyLoad: "ondemand" as LazyLoadTypes,
-  };
-
   return (
-    <Box
-      as="section"
-      w="full"
-      py={{ base: 5, md: 10 }}
-      bg="white"
-      id="portfolio"
-      px={4}
-    >
+    <Box as="section" w="full" py={{ base: 5, md: 10 }} bg="white" id="portfolio" px={4}>
       {/* Section Title */}
       <Text
         fontSize={{ base: "2xl", md: "5rem" }}
@@ -103,9 +82,8 @@ const PortfolioSection = () => {
       {/* Portfolio Grid */}
       <Grid
         templateColumns={{
-          base: "repeat(2, 1fr)", // 1 column for small screens
-          md: "repeat(2, 1fr)",  // 2 columns for medium screens
-          lg: "repeat(3, 1fr)",  // 3 columns for large screens
+          base: "repeat(2, 1fr)", // 2 columns for small screens
+          md: "repeat(3, 1fr)",  // 3 columns for medium/large screens
         }}
         gap={{ base: 4, md: 6 }}
         mx="auto"
@@ -119,27 +97,38 @@ const PortfolioSection = () => {
             borderRadius="xl"
             boxShadow="lg"
             _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
-            onClick={() => handleImageClick(item.gallery)}
+            onMouseEnter={() => setHoverGallery(item.gallery)}
+            onMouseLeave={() => setHoverGallery(null)}
+            onClick={() => handleImageClick(item.gallery, 0)}
             cursor="pointer"
-            onMouseEnter={() => handleHover(item.gallery)}
-            onMouseLeave={() => handleHover(null)}
           >
+            {/* Hover Slider */}
             {hoverGallery === item.gallery ? (
-              <Slider {...hoverSliderSettings}>
+              <Swiper
+                modules={[Pagination, Autoplay, EffectFade]}
+                spaceBetween={10}
+                slidesPerView={1}
+                autoplay={{ delay: 1500, disableOnInteraction: false }}
+                loop
+                effect={'fade'}
+                pagination={{ clickable: false }}
+                style={{ width: "100%", height: "100%" }}
+              >
                 {item.gallery.map((src, idx) => (
-                  <Image
-                    key={idx}
-                    src={src}
-                    alt={`${item.title} - ${idx + 1}`}
-                    loading="lazy"
-                    w="full"
-                    h="auto"
-                    objectFit="cover"
-                  />
+                  <SwiperSlide key={idx}>
+                    <Image
+                      src={src}
+                      alt={`${item.title} - ${idx + 1}`}
+                      loading="lazy"
+                      w="full"
+                      h="auto"
+                      objectFit="cover"
+                    />
+                  </SwiperSlide>
                 ))}
-              </Slider>
+              </Swiper>
             ) : (
-              // Image 
+              // Default Thumbnail
               <Image
                 src={item.src}
                 alt={item.title}
@@ -190,85 +179,132 @@ const PortfolioSection = () => {
                 textAlign="center"
                 fontFamily="heading"
                 textTransform="lowercase"
-              // _hover={{ textDecoration: "underline" }}
               >
                 See More
               </Text>
             </Flex>
           </GridItem>
-        ))
-        }
-      </Grid >
+        ))}
+      </Grid>
 
       {/* Modal for Gallery */}
-      <Modal isOpen={isOpen} onClose={onClose} size="container.xl" isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setThumbsSwiper(null);
+          onClose()
+        }}
+        size="container.xl"
+        isCentered
+      >
         <ModalOverlay />
-        <ModalContent boxShadow="none" borderRadius="lg" w="container.xl" overflow="hidden" bg="transparent" pt={5} pb={2}>
-          <Box
-            position="absolute"
-            top="0"
-            right="0"
-            w="full"
-            h="full"
-            zIndex="1"
-            display="flex"
-            alignItems="flex-start"
-            justifyContent="center"
-            color="black"
-          >
-            <ModalCloseButton
-              color="white"
-              bg="rgba(0, 0, 0, 0.6)"
-              _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
-            />
-          </Box>
+        <ModalContent boxShadow="none" borderRadius="lg" w="container.md" overflow="hidden" bg="white" p={4}>
 
-          <Box position="relative" w="full">
-            <Slider {...mainSliderSettings} ref={sliderRef}>
+          <Box position="relative" w="container">
+            {/* Swiper for Modal Gallery */}
+            <Swiper
+              initialSlide={initialSlide}
+              autoplay={{ delay: 2000, disableOnInteraction: false }}
+              effect={'fade'}
+              spaceBetween={10}
+              thumbs={{ swiper: thumbsSwiper }}
+              loop
+              modules={[EffectFade, Autoplay, Thumbs]}
+              style={{ position: "relative" }}
+            >
+              <Box
+                position="absolute"
+                top="0"
+                right="0"
+                w="full"
+                h="full"
+                zIndex="10"
+                display="flex"
+                alignItems="flex-start"
+                justifyContent="center"
+                color="black"
+              >
+                <ModalCloseButton
+                  color="white"
+                  bg="rgba(0, 0, 0, 0.6)"
+                  _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
+                />
+              </Box>
               {currentGallery.map((image, index) => (
-                <Box key={index}>
+                <SwiperSlide key={index}>
                   <Image
                     src={image}
                     alt={`Gallery Image ${index + 1}`}
                     w="full"
-                    h="80vh"
+                    h="full"
                     objectFit="contain"
                   />
-                </Box>
+                </SwiperSlide>
               ))}
-            </Slider>
+            </Swiper>
 
-            <IconButton
-              aria-label="Previous"
-              icon={<FaChevronLeft />}
-              position="absolute"
-              top="50%"
-              left="5%"
-              transform="translateY(-50%)"
-              zIndex="10"
-              bg="rgba(255, 255, 255, 0.6)"
-              color="black"
-              _hover={{ bg: "rgba(255, 255, 255, 0.8)" }}
-              borderRadius="full"
-              onClick={() => sliderRef.current?.slickPrev()}
-            />
-            <IconButton
-              aria-label="Next"
-              icon={<FaChevronRight />}
-              position="absolute"
-              top="50%"
-              right="5%"
-              transform="translateY(-50%)"
-              zIndex="10"
-              bg="rgba(255, 255, 255, 0.6)"
-              color="black"
-              _hover={{ bg: "rgba(255, 255, 255, 0.8)" }}
-              borderRadius="full"
-              onClick={() => sliderRef.current?.slickNext()}
-            />
+            <Swiper
+              onSwiper={setThumbsSwiper}
+              spaceBetween={10}
+              slidesPerView={isMobile ? 3 : 6}
+              freeMode={true}
+              watchSlidesProgress={true}
+              navigation={{
+                prevEl: prevRef.current,
+                nextEl: nextRef.current,
+              }}
+              onBeforeInit={(swiper: any) => {
+                swiper.params.navigation.prevEl = prevRef.current;
+                swiper.params.navigation.nextEl = nextRef.current;
+              }}
+              modules={[FreeMode, Navigation, Thumbs]}
+              className="mySwiper"
+              style={{ height: "15vh", marginTop: 10, position: "relative" }}
+            >
+              {currentGallery.map((image, index) => (
+                <SwiperSlide key={index} onClick={() => thumbsSwiper.slideTo(index)}>
+                  <Image
+                    src={image}
+                    alt={`Thumbnail ${index + 1}`}
+                    w="full"
+                    h="full"
+                    objectFit="cover"
+                    cursor="pointer"
+                  />
+                </SwiperSlide>
+              ))}
+              <IconButton
+                aria-label="Previous"
+                icon={<FaChevronLeft />}
+                position="absolute"
+                top="50%"
+                left="5"
+                transform="translateY(-50%)"
+                zIndex="10"
+                bg="rgba(0, 0, 0, 0.6)"
+                color="white"
+                _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
+                borderRadius="full"
+                ref={prevRef}
+              />
+              <IconButton
+                aria-label="Next"
+                icon={<FaChevronRight />}
+                position="absolute"
+                top="50%"
+                right="5"
+                transform="translateY(-50%)"
+                zIndex="10"
+                bg="rgba(0, 0, 0, 0.6)"
+                color="white"
+                _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
+                borderRadius="full"
+                ref={nextRef}
+              />
+            </Swiper>
           </Box>
         </ModalContent>
-      </Modal >
+      </Modal>
     </Box >
   );
 };

@@ -11,6 +11,7 @@ const AboutSection = () => {
       py={{ base: 5, md: 10 }}
       id="about"
       overflow="hidden"
+    // bg="white"
     >
       <Box
         as="img"

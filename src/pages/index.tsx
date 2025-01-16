@@ -1,7 +1,6 @@
 import LoadingScreen from "@/components/LoadingScreen";
 import AboutSection from "@/components/Pages/About";
-import ContactSection from "@/components/Pages/Contact/UpdateContact";
-// import ContactSection from "@/components/Pages/Contact";
+import ContactSection from "@/components/Pages/Contact";
 import Carousel from "@/components/Pages/Home";
 import OurClientSection from "@/components/Pages/OurClient";
 import PortfolioSection from "@/components/Pages/Portfolio";

@@ -1,9 +1,13 @@
 "use client";
 
 import { Box, Text, IconButton, useBreakpointValue } from "@chakra-ui/react";
-import Slider, { LazyLoadTypes } from "react-slick";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/navigation";
 
 const images = [
   { src: "/images/hero/hero-1.webp", alt: "Hero Image 1" },
@@ -18,75 +22,85 @@ const images = [
 ];
 
 const Carousel = () => {
-  const sliderRef = useRef<Slider | null>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
   const isMobile = useBreakpointValue({ base: true, md: false });
-
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    autoplay: true,
-    lazyLoad: "ondemand" as LazyLoadTypes,
-    autoplaySpeed: 5000
-  };
 
   return (
     <Box
       position="relative"
       w="full"
-      h="100vh"
+      h={isMobile ? "auto" : "100vh"}
       mx="auto"
       overflow="hidden"
       id="home"
     >
-      <Slider {...settings} ref={sliderRef}>
+      <Swiper
+        modules={[Autoplay, Navigation, EffectFade]}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        navigation={{
+          prevEl: prevRef.current,
+          nextEl: nextRef.current,
+        }}
+        onBeforeInit={(swiper: any) => {
+          swiper.params.navigation.prevEl = prevRef.current;
+          swiper.params.navigation.nextEl = nextRef.current;
+        }}
+        effect={'fade'}
+        loop
+        spaceBetween={10}
+        style={{ width: "100%" }}
+      >
         {images.map((image, index) => (
-          <Box key={index} position="relative" h="100vh">
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: isMobile ? "center" : "center bottom "
-              }}
-            />
-          </Box>
+          <SwiperSlide key={index}>
+            <Box w="full" h={isMobile ? "auto" : "100vh"}>
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                className="swiper-lazy"
+                style={{
+                  width: "100%",
+                  height: isMobile ? "auto" : "100%",
+                  objectFit: "cover",
+                  objectPosition: "center bottom",
+                }}
+              />
+              <div className="swiper-lazy-preloader"></div>
+            </Box>
+          </SwiperSlide>
         ))}
-      </Slider>
 
-      <IconButton
-        aria-label="Previous"
-        icon={<FaChevronLeft />}
-        position="absolute"
-        top="50%"
-        left="5%"
-        transform="translateY(-50%)"
-        zIndex="10"
-        bg="rgba(0, 0, 0, 0.6)"
-        color="white"
-        _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
-        borderRadius="full"
-        onClick={() => sliderRef.current?.slickPrev()}
-      />
-      <IconButton
-        aria-label="Next"
-        icon={<FaChevronRight />}
-        position="absolute"
-        top="50%"
-        right="5%"
-        transform="translateY(-50%)"
-        zIndex="10"
-        bg="rgba(0, 0, 0, 0.6)"
-        color="white"
-        _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
-        borderRadius="full"
-        onClick={() => sliderRef.current?.slickNext()}
-      />
+        {/* Custom Navigation Buttons */}
+        <IconButton
+          aria-label="Previous"
+          icon={<FaChevronLeft />}
+          position="absolute"
+          top="50%"
+          left="5%"
+          transform="translateY(-50%)"
+          zIndex="10"
+          bg="rgba(0, 0, 0, 0.6)"
+          color="white"
+          _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
+          borderRadius="full"
+          ref={prevRef}
+        />
+        <IconButton
+          aria-label="Next"
+          icon={<FaChevronRight />}
+          position="absolute"
+          top="50%"
+          right="5%"
+          transform="translateY(-50%)"
+          zIndex="10"
+          bg="rgba(0, 0, 0, 0.6)"
+          color="white"
+          _hover={{ bg: "rgba(0, 0, 0, 0.8)" }}
+          borderRadius="full"
+          ref={nextRef}
+        />
+      </Swiper>
 
       <Box
         position="absolute"
