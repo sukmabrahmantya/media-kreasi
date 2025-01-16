@@ -30,7 +30,8 @@ const Carousel = () => {
     <Box
       position="relative"
       w="full"
-      h={isMobile ? "auto" : "100vh"}
+      h={"auto"}
+      // h={isMobile ? "auto" : "100vh"}
       mx="auto"
       overflow="hidden"
       id="home"
@@ -53,7 +54,8 @@ const Carousel = () => {
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
-            <Box w="full" h={isMobile ? "auto" : "100vh"}>
+            {/* <Box w="full" h={isMobile ? "auto" : "100vh"}> */}
+            <Box w="full" h={"auto"}>
               <img
                 src={image.src}
                 alt={image.alt}
@@ -61,7 +63,8 @@ const Carousel = () => {
                 className="swiper-lazy"
                 style={{
                   width: "100%",
-                  height: isMobile ? "auto" : "100%",
+                  height: "auto",
+                  // height: isMobile ? "auto" : "100%",
                   objectFit: "cover",
                   objectPosition: "center bottom",
                 }}
@@ -105,7 +108,8 @@ const Carousel = () => {
       <Box
         position="absolute"
         w="full"
-        bottom={{ base: "15%", md: "17%" }}
+        bottom={{ base: "15%", md: "15%" }}
+        // bottom={{ base: "15%", md: "17%" }}
         left="50%"
         transform="translateX(-50%)"
         zIndex="2"
