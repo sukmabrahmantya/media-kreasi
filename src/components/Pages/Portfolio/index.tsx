@@ -61,20 +61,21 @@ const PortfolioSection = () => {
           const [isSwiperReady, setIsSwiperReady] = useState(false);
 
           const handleMouseEnter = () => {
-            setIsHovering(true);
-            Promise.all(
-              item.gallery.map((src) => {
-                const img = new window.Image();
-                img.src = src;
-                return new Promise((resolve) => {
-                  img.onload = resolve;
-                  img.onerror = resolve;
-                });
-              })
-            )
-              .then(() => {
+            if (!isMobile) {
+              setIsHovering(true);
+              Promise.all(
+                item.gallery.map((src) => {
+                  const img = new window.Image();
+                  img.src = src;
+                  return new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                  });
+                })
+              ).then(() => {
                 setIsSwiperReady(true);
               });
+            }
           };
 
           const handleMouseLeave = () => {
@@ -92,7 +93,6 @@ const PortfolioSection = () => {
               _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-
               onClick={() => handleImageClick(item.gallery, 0)}
               cursor="pointer"
             >
