@@ -29,10 +29,11 @@ const ServiceSection = () => {
         mx="auto"
         maxW="container.xl"
         display={{ base: "none", md: "flex" }}
-        justifyContent="space-around"
+        justifyContent="center"
         alignItems="center"
         flexWrap="wrap"
-        gap={2}
+        columnGap={10}
+        rowGap={2}
       >
         {/* Left Section: Event & Experiential */}
         <VStack
@@ -55,20 +56,53 @@ const ServiceSection = () => {
           <UnorderedList color="#0367AB" fontSize="xl" lineHeight="23px">
             <ListItem>Live event, concert</ListItem>
             <ListItem>Virtual event</ListItem>
-            <ListItem>Conference, expo, seminar gathering</ListItem>
+            <ListItem>Conference, expo, seminar gathering.</ListItem>
           </UnorderedList>
         </VStack>
 
         {/* Center Image */}
-        <Image
-          src="/images/equipment-2.webp"
-          alt="Equipment"
-          borderRadius="md"
-          w="full"
-          maxW="500px"
-          // maxW="530px"
-          h="auto"
-        />
+        <Box position="relative" maxW="400px">
+          <Image
+            src="/images/equipment-2.webp"
+            alt="Equipment"
+            borderRadius="md"
+            w="full"
+            maxW="400px"
+            h="auto"
+          />
+
+          {/* Left Line */}
+          <Image
+            src="/svg/left-line.svg"
+            alt="Left Line"
+            position="absolute"
+            bottom="22%"
+            left="-60%"
+            w="275px"
+          />
+
+          {/* Right Line */}
+          <Image
+            src="/svg/right-line.svg"
+            alt="Right Line"
+            position="absolute"
+            top="17%"
+            right="-52%"
+            w="200px"
+          />
+
+          {/* Bottom Line */}
+          <Image
+            src="/svg/bottom-line.svg"
+            alt="Bottom Line"
+            position="absolute"
+            bottom="-22%"
+            left="21%"
+            transform="translateX(-50%)"
+            h="100px"
+          />
+
+        </Box>
 
         {/* Right Section: Technical & Equipment */}
         <VStack
@@ -101,6 +135,7 @@ const ServiceSection = () => {
           w="380px"
           mt={4}
           textAlign="left"
+          ml={40}
         >
           <Text
             fontSize="4xl"
@@ -130,7 +165,7 @@ const ServiceSection = () => {
           alt="Equipment"
           borderRadius="md"
           w="full"
-          maxW="239px"
+          maxW="200px"
           h="auto"
           mb={4}
         />
@@ -212,7 +247,7 @@ const ServiceSection = () => {
         </Accordion>
       </Box>
 
-    </Box>
+    </Box >
   );
 };
 
