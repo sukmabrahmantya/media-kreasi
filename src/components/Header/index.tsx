@@ -67,9 +67,10 @@ const Header = () => {
               to={item.toLowerCase()}
               smooth={true}
               duration={500}
-              offset={-80}
+              // offset={-80}
               spy={true}
               activeClass="active"
+              isDynamic={true}
             >
               <Heading
                 fontSize="2xl"

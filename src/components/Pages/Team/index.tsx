@@ -4,21 +4,16 @@ import { Box, Text, IconButton, Image, Divider, AbsoluteCenter, useBreakpointVal
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, EffectFade, Thumbs, FreeMode } from "swiper/modules";
+import { Autoplay, Pagination, Navigation, EffectFade, Thumbs, FreeMode, Scrollbar } from "swiper/modules";
+import { teamImages } from "@/utils/images";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import 'swiper/css/effect-fade';
 import 'swiper/css/thumbs';
-
-const teamImages = [
-  { src: "/images/team/team-1.webp", alt: "Team Image 1" },
-  { src: "/images/team/team-2.webp", alt: "Team Image 2" },
-  { src: "/images/team/team-3.webp", alt: "Team Image 3" },
-  { src: "/images/team/team-4.webp", alt: "Team Image 4" },
-  { src: "/images/team/team-5.webp", alt: "Team Image 5" },
-  { src: "/images/team/team-6.webp", alt: "Team Image 6" },
-];
+import "swiper/css/scrollbar";
+import "swiper/css/free-mode";
 
 const TeamSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,7 +27,7 @@ const TeamSection = () => {
 
 
   const handleImageClick = (index: number) => {
-    setInitialSlide(index); // Set the initial slide index
+    setInitialSlide(index);
     onOpen();
   };
 
@@ -176,8 +171,16 @@ const TeamSection = () => {
               spaceBetween={10}
               thumbs={{ swiper: thumbsSwiper }}
               loop
-              modules={[EffectFade, Thumbs]}
+              modules={[EffectFade, Thumbs, Navigation]}
               style={{ position: "relative" }}
+              navigation={{
+                prevEl: prevRefTumb.current,
+                nextEl: nextRefTumb.current,
+              }}
+              onBeforeInit={(swiper: any) => {
+                swiper.params.navigation.prevEl = prevRefTumb.current;
+                swiper.params.navigation.nextEl = nextRefTumb.current;
+              }}
             >
               <Box
                 position="absolute"
@@ -205,39 +208,6 @@ const TeamSection = () => {
                     w="full"
                     h="full"
                     objectFit="contain"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-
-            <Swiper
-              onSwiper={setThumbsSwiper}
-              spaceBetween={10}
-              slidesPerView={isMobile ? 3 : 6}
-              freeMode={true}
-              watchSlidesProgress={true}
-              navigation={{
-                prevEl: prevRefTumb.current,
-                nextEl: nextRefTumb.current,
-              }}
-              onBeforeInit={(swiper: any) => {
-                swiper.params.navigation.prevEl = prevRefTumb.current;
-                swiper.params.navigation.nextEl = nextRefTumb.current;
-              }}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper"
-              loop
-              style={{ height: "15vh", marginTop: 10, position: "relative" }}
-            >
-              {teamImages.map((image, index) => (
-                <SwiperSlide key={index} onClick={() => thumbsSwiper.slideTo(index)}>
-                  <Image
-                    src={image.src}
-                    alt={`${image.alt} - ${index + 1}`}
-                    w="full"
-                    h="full"
-                    objectFit="cover"
-                    cursor="pointer"
                   />
                 </SwiperSlide>
               ))}
@@ -270,6 +240,43 @@ const TeamSection = () => {
                 ref={nextRefTumb}
               />
             </Swiper>
+
+            <Swiper
+              onSwiper={setThumbsSwiper}
+              spaceBetween={10}
+              slidesPerView={isMobile ? 3 : 6}
+              freeMode={true}
+              watchSlidesProgress={true}
+              modules={[FreeMode, Scrollbar]}
+              scrollbar={{ draggable: true }}
+              className="mySwiper"
+              style={{
+                height: "10vh",
+                marginTop: 10,
+              }}
+            >
+              {teamImages.map((image, index) => (
+                <SwiperSlide key={index} onClick={() => thumbsSwiper.slideTo(index)}>
+                  <Box
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      overflow: "hidden",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Image
+                      src={image.src}
+                      alt={`${image.alt} - ${index + 1}`}
+                      w="full"
+                      h="full"
+                      objectFit="cover"
+                    />
+                  </Box>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
           </Box>
         </ModalContent>
       </Modal >

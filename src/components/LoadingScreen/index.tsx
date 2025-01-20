@@ -1,13 +1,17 @@
 import { Box, Center, Image, Spinner, Text } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 
-const LoadingScreen = () => {
+interface ILoadingParams {
+  delay?: number
+}
+
+const LoadingScreen: FC<ILoadingParams> = ({ delay = 3000 }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000);
+    }, delay);
 
     return () => clearTimeout(timer);
   }, []);

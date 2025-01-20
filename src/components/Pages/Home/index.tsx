@@ -8,18 +8,7 @@ import { Autoplay, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
-
-const images = [
-  { src: "/images/hero/hero-1.webp", alt: "Hero Image 1" },
-  { src: "/images/hero/hero-2.webp", alt: "Hero Image 2" },
-  { src: "/images/hero/hero-3.webp", alt: "Hero Image 3" },
-  { src: "/images/hero/hero-4.webp", alt: "Hero Image 4" },
-  { src: "/images/hero/hero-5.webp", alt: "Hero Image 5" },
-  { src: "/images/hero/hero-6.webp", alt: "Hero Image 6" },
-  { src: "/images/hero/hero-7.webp", alt: "Hero Image 7" },
-  { src: "/images/hero/hero-8.webp", alt: "Hero Image 8" },
-  { src: "/images/hero/hero-9.webp", alt: "Hero Image 9" },
-];
+import { heroImages } from "@/utils/images";
 
 const Carousel = () => {
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -30,8 +19,7 @@ const Carousel = () => {
     <Box
       position="relative"
       w="full"
-      h={"auto"}
-      // h={isMobile ? "auto" : "100vh"}
+      h={isMobile ? "auto" : "100vh"}
       mx="auto"
       overflow="hidden"
       id="home"
@@ -52,10 +40,9 @@ const Carousel = () => {
         spaceBetween={10}
         style={{ width: "100%" }}
       >
-        {images.map((image, index) => (
+        {heroImages.map((image, index) => (
           <SwiperSlide key={index}>
-            {/* <Box w="full" h={isMobile ? "auto" : "100vh"}> */}
-            <Box w="full" h={"auto"}>
+            <Box w="full" h={isMobile ? "auto" : "100vh"}>
               <img
                 src={image.src}
                 alt={image.alt}
@@ -63,8 +50,7 @@ const Carousel = () => {
                 className="swiper-lazy"
                 style={{
                   width: "100%",
-                  height: "auto",
-                  // height: isMobile ? "auto" : "100%",
+                  height: isMobile ? "auto" : "100%",
                   objectFit: "cover",
                   objectPosition: "center bottom",
                 }}
