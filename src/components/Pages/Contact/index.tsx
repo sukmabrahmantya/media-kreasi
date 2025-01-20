@@ -29,6 +29,7 @@ const ContactSection = () => {
       px={{ base: 4, md: 10 }}
       position="relative"
       overflow="hidden"
+      id="contact"
     >
       {/* Background Looper */}
       <Image
