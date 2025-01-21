@@ -40,7 +40,6 @@ const TeamSection = () => {
       id="team"
       w="full"
     >
-      {/* Section Title */}
       {!isMobile ?
         <Box textAlign="center" mb={16}>
           <Box position='relative' maxW="container.xl" px={4} mx="auto">
@@ -62,7 +61,7 @@ const TeamSection = () => {
         </Box>
         :
         <Text
-          fontSize={{ base: "2xl", md: "5rem" }}
+          fontSize={{ base: "3xl", md: "5rem" }}
           fontWeight="400"
           color="black"
           fontFamily="chalkboy"
@@ -74,7 +73,6 @@ const TeamSection = () => {
         </Text>
       }
 
-      {/* Carousel */}
       <Box position="relative" w="100vw">
         <Swiper
           modules={[Pagination, Autoplay, Navigation]}
@@ -164,7 +162,6 @@ const TeamSection = () => {
         <ModalOverlay />
         <ModalContent boxShadow="none" borderRadius="lg" w="container.md" overflow="hidden" bg="white" p={4}>
           <Box position="relative" w="container">
-            {/* Swiper for Modal Gallery */}
             <Swiper
               initialSlide={initialSlide}
               effect={'fade'}

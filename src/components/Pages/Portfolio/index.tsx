@@ -122,7 +122,7 @@ const PortfolioSection = () => {
   return (
     <Box as="section" w="full" py={{ base: 5, md: 10 }} bg="white" id="portfolio" px={4} ref={portfolioRef} >
       <Text
-        fontSize={{ base: "2xl", md: "5rem" }}
+        fontSize={{ base: "3xl", md: "5rem" }}
         fontWeight="400"
         color="black"
         fontFamily="chalkboy"

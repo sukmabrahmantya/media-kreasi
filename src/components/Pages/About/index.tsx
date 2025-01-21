@@ -76,7 +76,7 @@ const AboutSection = () => {
         </Skeleton>
 
         <Text
-          fontSize={{ base: "2xl", md: "5rem" }}
+          fontSize={{ base: "3xl", md: "5rem" }}
           fontWeight="400"
           color="black"
           fontFamily="chalkboy"
