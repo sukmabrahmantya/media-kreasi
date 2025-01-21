@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Text, Grid, GridItem, Image, Flex, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, IconButton, useBreakpointValue } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectFade, Thumbs, FreeMode, Scrollbar } from "swiper/modules";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -25,6 +25,37 @@ const PortfolioSection = () => {
   const nextRef = useRef<HTMLButtonElement>(null);
   const isMobile = useBreakpointValue({ base: true, md: false });
 
+  const [activeIndex, setActiveIndex] = useState<number | null>(null); // Shared state for the active slider
+  const [swiperReady, setSwiperReady] = useState<number | null>(null);
+  const [isInViewport, setIsInViewport] = useState<boolean>(true);
+  const portfolioRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInViewport(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // Trigger when 10% of the section is visible
+    );
+
+    if (portfolioRef.current) {
+      observer.observe(portfolioRef.current);
+    }
+
+    return () => {
+      if (portfolioRef.current) {
+        observer.unobserve(portfolioRef.current);
+      }
+    };
+  }, []);
+
+  // Stop all sliders if the section is not in the viewport
+  useEffect(() => {
+    if (!isInViewport) {
+      setActiveIndex(null);
+    }
+  }, [isInViewport]);
+
 
   const handleImageClick = (gallery: string[], index: number) => {
     setCurrentGallery(gallery);
@@ -32,8 +63,59 @@ const PortfolioSection = () => {
     onOpen();
   };
 
+  const [isHovering, setIsHovering] = useState(false);
+  const [isSwiperReady, setIsSwiperReady] = useState(false);
+
+  const handleMouseEnter = (index: number, gallery: string[]) => {
+    if (isMobile) return;
+
+    setActiveIndex(index);
+
+    Promise.all(
+      gallery.map((src) => {
+        const img = new window.Image();
+        img.src = src;
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      })
+    ).then(() => setSwiperReady(index));
+  };
+
+  const handleMouseLeave = () => {
+    if (isMobile) return;
+
+    setActiveIndex(null);
+    setSwiperReady(null);
+  };
+
+  const handleTouchStart = (index: number, gallery: string[]) => {
+    if (!isMobile) return;
+
+    setActiveIndex(index);
+    Promise.all(
+      gallery.map((src) => {
+        const img = new window.Image();
+        img.src = src;
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      })
+    ).then(() => setSwiperReady(index));
+  };
+
+  const handleTouchEnd = () => {
+    if (!isMobile) return;
+
+    setActiveIndex(null);
+    setSwiperReady(null);
+
+  };
+
   return (
-    <Box as="section" w="full" py={{ base: 5, md: 10 }} bg="white" id="portfolio" px={4}>
+    <Box as="section" w="full" py={{ base: 5, md: 10 }} bg="white" id="portfolio" px={4} ref={portfolioRef} >
       {/* Section Title */}
       <Text
         fontSize={{ base: "2xl", md: "5rem" }}
@@ -56,134 +138,108 @@ const PortfolioSection = () => {
         mx="auto"
         maxW="container.xl"
       >
-        {portfolioImages.map((item, index) => {
-          const [isHovering, setIsHovering] = useState(false);
-          const [isSwiperReady, setIsSwiperReady] = useState(false);
+        {portfolioImages.map((item, index) => (
+          <GridItem
+            key={index}
+            position="relative"
+            overflow="hidden"
+            borderRadius="xl"
+            boxShadow="lg"
+            _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
+            onMouseEnter={() => handleMouseEnter(index, item.gallery)}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={() => handleTouchStart(index, item.gallery)}
+            onTouchEnd={handleTouchEnd}
+            onClick={() => handleImageClick(item.gallery, 0)}
+            cursor="pointer"
+          >
+            {/* Hover Slider */}
+            {activeIndex === index && swiperReady === index ? (
+              <Swiper
+                modules={[Autoplay, EffectFade]}
+                spaceBetween={10}
+                slidesPerView={1}
+                autoplay={{ delay: 1000, disableOnInteraction: false }}
+                loop
+                effect={'fade'}
+                style={{ width: "100%", height: "100%" }}
+              >
+                {item.gallery.map((src, idx) => (
+                  <SwiperSlide key={idx}>
+                    <Image
+                      src={src}
+                      alt={`${item.title} - ${idx + 1}`}
+                      loading="lazy"
+                      className="swiper-lazy"
+                      w="full"
+                      h="auto"
+                      objectFit="cover"
+                    />
+                    <LoadingScreen delay={100} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              // Default Thumbnail
+              <Box>
+                <Image
+                  src={item.src}
+                  alt={item.title}
+                  loading="lazy"
+                  w="full"
+                  h="auto"
+                  objectFit="cover"
+                  className="swiper-lazy"
+                />
+              </Box>
+            )}
 
-          const handleMouseEnter = () => {
-            if (!isMobile) {
-              setIsHovering(true);
-              Promise.all(
-                item.gallery.map((src) => {
-                  const img = new window.Image();
-                  img.src = src;
-                  return new Promise((resolve) => {
-                    img.onload = resolve;
-                    img.onerror = resolve;
-                  });
-                })
-              ).then(() => {
-                setIsSwiperReady(true);
-              });
-            }
-          };
-
-          const handleMouseLeave = () => {
-            setIsHovering(false);
-            setIsSwiperReady(false);
-          };
-
-          return (
-            <GridItem
-              key={index}
-              position="relative"
-              overflow="hidden"
-              borderRadius="xl"
-              boxShadow="lg"
-              _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onClick={() => handleImageClick(item.gallery, 0)}
-              cursor="pointer"
+            {/* Title Overlay */}
+            < Flex
+              position="absolute"
+              top={{ base: 1, md: 5 }}
+              left={0}
+              w="full"
+              color="white"
+              py={2}
+              justify="center"
+              opacity={0.8}
+              align="center"
             >
-              {/* Hover Slider */}
-              {isHovering && isSwiperReady ? (
-                <Swiper
-                  modules={[Autoplay, EffectFade]}
-                  spaceBetween={10}
-                  slidesPerView={1}
-                  autoplay={{ delay: 1000, disableOnInteraction: false }}
-                  loop
-                  effect={'fade'}
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  {item.gallery.map((src, idx) => (
-                    <SwiperSlide key={idx}>
-                      <Image
-                        src={src}
-                        alt={`${item.title} - ${idx + 1}`}
-                        loading="lazy"
-                        className="swiper-lazy"
-                        w="full"
-                        h="auto"
-                        objectFit="cover"
-                      />
-                      <LoadingScreen delay={100} />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              ) : (
-                // Default Thumbnail
-                <Box>
-                  <Image
-                    src={item.src}
-                    alt={item.title}
-                    loading="lazy"
-                    w="full"
-                    h="auto"
-                    objectFit="cover"
-                    className="swiper-lazy"
-                  />
-                </Box>
-              )}
-
-              {/* Title Overlay */}
-              < Flex
-                position="absolute"
-                top={{ base: 1, md: 5 }}
-                left={0}
-                w="full"
-                color="white"
-                py={2}
-                justify="center"
-                opacity={0.8}
-                align="center"
+              <Text
+                fontSize={{ base: "md", md: "2xl" }}
+                fontWeight={{ base: "900", md: "400" }}
+                textAlign="center"
+                fontFamily="arialBlack"
+                textTransform="uppercase"
               >
-                <Text
-                  fontSize={{ base: "sm", md: "2xl" }}
-                  fontWeight="400"
-                  textAlign="center"
-                  fontFamily="arialBlack"
-                  textTransform="uppercase"
-                >
-                  {item.title}
-                </Text>
-              </Flex>
+                {item.title}
+              </Text>
+            </Flex>
 
-              {/* See More Label */}
-              <Flex
-                position="absolute"
-                bottom={{ base: 2, md: 8 }}
-                left={0}
-                w="full"
-                color="white"
-                py={2}
-                justify="center"
-                align="center"
-                opacity={0.8}
+            {/* See More Label */}
+            <Flex
+              position="absolute"
+              bottom={{ base: 2, md: 8 }}
+              left={0}
+              w="full"
+              color="white"
+              py={2}
+              justify="center"
+              align="center"
+              opacity={0.8}
+            >
+              <Text
+                fontSize={{ base: "sm", md: "xl" }}
+                textAlign="center"
+                fontFamily="heading"
+                textTransform="lowercase"
               >
-                <Text
-                  fontSize={{ base: "sm", md: "xl" }}
-                  textAlign="center"
-                  fontFamily="heading"
-                  textTransform="lowercase"
-                >
-                  See More
-                </Text>
-              </Flex>
-            </GridItem>
-          )
-        }
+                See More
+              </Text>
+            </Flex>
+          </GridItem>
+        )
         )}
       </Grid>
 
