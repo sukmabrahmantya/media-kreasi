@@ -75,7 +75,7 @@ export const portfolioImages = [
     ]
   },
   {
-    title: "Booth",
+    title: "Booth & Backdrop",
     src: "/images/tumb-booth.webp",
     gallery: [
       "/images/booth/1.webp",
@@ -86,13 +86,7 @@ export const portfolioImages = [
       "/images/booth/6.webp",
       "/images/booth/7.webp",
       "/images/booth/8.webp",
-      "/images/booth/9.webp"
-    ]
-  },
-  {
-    title: "Backdrop",
-    src: "/images/tumb-backdrop.webp",
-    gallery: [
+      "/images/booth/9.webp",
       "/images/backdrop/1.webp",
       "/images/backdrop/2.webp",
       "/images/backdrop/3.webp",
@@ -128,6 +122,28 @@ export const portfolioImages = [
       "/images/3d/11.webp",
       "/images/3d/12.webp",
       "/images/3d/13.webp"
+    ]
+  },
+  {
+    title: "Virtual Event",
+    src: "/images/tumb-virtual-event.webp",
+    gallery: [
+      "/images/virtual-event/1.webp",
+      "/images/virtual-event/2.webp",
+      "/images/virtual-event/3.webp",
+      "/images/virtual-event/4.webp",
+      "/images/virtual-event/5.webp",
+      "/images/virtual-event/6.webp",
+      "/images/virtual-event/7.webp",
+      "/images/virtual-event/8.webp",
+      "/images/virtual-event/9.webp",
+      "/images/virtual-event/10.webp",
+      "/images/virtual-event/11.webp",
+      "/images/virtual-event/12.webp",
+      "/images/virtual-event/13.webp",
+      "/images/virtual-event/14.webp",
+      "/images/virtual-event/15.webp",
+      "/images/virtual-event/16.webp"
     ]
   },
 ];
