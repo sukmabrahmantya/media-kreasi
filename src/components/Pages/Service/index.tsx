@@ -1,6 +1,9 @@
-import { Box, Text, VStack, Image, UnorderedList, ListItem, useDisclosure, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
+import { Box, Text, VStack, Image, UnorderedList, ListItem, useDisclosure, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Skeleton } from "@chakra-ui/react";
+import { useState } from "react";
 
 const ServiceSection = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <Box
       as="section"
@@ -13,7 +16,6 @@ const ServiceSection = () => {
       px={4}
       mx="auto"
     >
-      {/* Title */}
       <Text
         fontSize={{ base: "2xl", md: "5rem" }}
         fontWeight="400"
@@ -24,7 +26,6 @@ const ServiceSection = () => {
         WE PROVIDE BEST SERVICE
       </Text>
 
-      {/* Service Layout */}
       <Box
         mx="auto"
         maxW="container.xl"
@@ -35,7 +36,6 @@ const ServiceSection = () => {
         columnGap={10}
         rowGap={2}
       >
-        {/* Left Section: Event & Experiential */}
         <VStack
           align="flex-start"
           spacing={3}
@@ -60,18 +60,25 @@ const ServiceSection = () => {
           </UnorderedList>
         </VStack>
 
-        {/* Center Image */}
         <Box position="relative" maxW="400px">
-          <Image
-            src="/images/equipment-2.webp"
-            alt="Equipment"
+          <Skeleton
+            isLoaded={isLoaded}
             borderRadius="md"
             w="full"
             maxW="400px"
             h="auto"
-          />
+          >
+            <Image
+              src="/images/equipment-2.webp"
+              alt="Equipment"
+              borderRadius="md"
+              w="full"
+              maxW="400px"
+              h="auto"
+              onLoad={() => setIsLoaded(true)}
+            />
+          </Skeleton>
 
-          {/* Left Line */}
           <Image
             src="/svg/left-line.svg"
             alt="Left Line"
@@ -81,7 +88,6 @@ const ServiceSection = () => {
             w="275px"
           />
 
-          {/* Right Line */}
           <Image
             src="/svg/right-line.svg"
             alt="Right Line"
@@ -91,7 +97,6 @@ const ServiceSection = () => {
             w="200px"
           />
 
-          {/* Bottom Line */}
           <Image
             src="/svg/bottom-line.svg"
             alt="Bottom Line"
@@ -104,7 +109,6 @@ const ServiceSection = () => {
 
         </Box>
 
-        {/* Right Section: Technical & Equipment */}
         <VStack
           align="flex-start"
           spacing={3}
@@ -128,7 +132,6 @@ const ServiceSection = () => {
           </UnorderedList>
         </VStack>
 
-        {/* Bottom Section: Design & Build */}
         <VStack
           align="flex-start"
           spacing={3}
@@ -158,20 +161,28 @@ const ServiceSection = () => {
         display={{ base: "block", md: "none" }}
         mt={4}
       >
-        {/* Center Image */}
-        <Image
-          src="/images/equipment-2.webp"
-          mx="auto"
-          alt="Equipment"
+        <Skeleton
+          isLoaded={isLoaded}
           borderRadius="md"
           w="full"
           maxW="200px"
           h="auto"
-          mb={4}
-        />
+          mx="auto"
+        >
+          <Image
+            src="/images/equipment-2.webp"
+            mx="auto"
+            alt="Equipment"
+            borderRadius="md"
+            w="full"
+            maxW="200px"
+            h="auto"
+            mb={4}
+            onLoad={() => setIsLoaded(true)}
+          />
+        </Skeleton>
 
         <Accordion allowToggle>
-          {/* Event & Experiential */}
           <AccordionItem border="none">
             <h2>
               <AccordionButton color="#0367AB">
@@ -196,7 +207,6 @@ const ServiceSection = () => {
             </AccordionPanel>
           </AccordionItem>
 
-          {/* Technical & Equipment */}
           <AccordionItem borderColor="#94BFDC">
             <h2>
               <AccordionButton color="#0367AB">
@@ -221,7 +231,6 @@ const ServiceSection = () => {
             </AccordionPanel>
           </AccordionItem>
 
-          {/* Design & Build */}
           <AccordionItem borderColor="#94BFDC">
             <h2>
               <AccordionButton color="#0367AB">

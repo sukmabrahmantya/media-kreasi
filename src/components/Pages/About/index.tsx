@@ -1,8 +1,11 @@
 "use client";
 
-import { Box, Text, Image, Flex } from "@chakra-ui/react";
+import { Box, Text, Image, Flex, Skeleton } from "@chakra-ui/react";
+import { useState } from "react";
 
 const AboutSection = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <Box
       as="section"
@@ -11,7 +14,6 @@ const AboutSection = () => {
       py={{ base: 5, md: 10 }}
       id="about"
       overflow="hidden"
-    // bg="white"
     >
       <Box
         as="img"
@@ -59,15 +61,19 @@ const AboutSection = () => {
 
         mx="auto"
       >
-        <Image
-          src="/images/equipment.webp"
-          alt="Media Kreasi Equipment"
-          loading="lazy"
-          w="full"
-          maxW={{ base: "239px", md: "530px" }}
-          h="auto"
-          objectFit="contain"
-        />
+        <Skeleton isLoaded={isLoaded} w="full" maxW={{ base: "239px", md: "530px" }} h="auto">
+          <Image
+            src="/images/equipment.webp"
+            alt="Media Kreasi Equipment"
+            loading="lazy"
+            w="full"
+            maxW={{ base: "239px", md: "530px" }}
+            h="auto"
+            objectFit="contain"
+            onLoad={() => setIsLoaded(true)}
+          />
+
+        </Skeleton>
 
         <Text
           fontSize={{ base: "2xl", md: "5rem" }}

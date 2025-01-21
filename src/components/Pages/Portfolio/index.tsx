@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text, Grid, GridItem, Image, Flex, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Text, Grid, GridItem, Image, Flex, Modal, ModalOverlay, ModalContent, ModalCloseButton, useDisclosure, IconButton, useBreakpointValue, Skeleton } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, EffectFade, Thumbs, FreeMode, Scrollbar } from "swiper/modules";
@@ -25,9 +25,10 @@ const PortfolioSection = () => {
   const nextRef = useRef<HTMLButtonElement>(null);
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null); // Shared state for the active slider
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [swiperReady, setSwiperReady] = useState<number | null>(null);
   const [isInViewport, setIsInViewport] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const portfolioRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const PortfolioSection = () => {
       ([entry]) => {
         setIsInViewport(entry.isIntersecting);
       },
-      { threshold: 0.1 } // Trigger when 10% of the section is visible
+      { threshold: 0.1 }
     );
 
     if (portfolioRef.current) {
@@ -49,7 +50,14 @@ const PortfolioSection = () => {
     };
   }, []);
 
-  // Stop all sliders if the section is not in the viewport
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     if (!isInViewport) {
       setActiveIndex(null);
@@ -62,9 +70,6 @@ const PortfolioSection = () => {
     setInitialSlide(index);
     onOpen();
   };
-
-  const [isHovering, setIsHovering] = useState(false);
-  const [isSwiperReady, setIsSwiperReady] = useState(false);
 
   const handleMouseEnter = (index: number, gallery: string[]) => {
     if (isMobile) return;
@@ -116,7 +121,6 @@ const PortfolioSection = () => {
 
   return (
     <Box as="section" w="full" py={{ base: 5, md: 10 }} bg="white" id="portfolio" px={4} ref={portfolioRef} >
-      {/* Section Title */}
       <Text
         fontSize={{ base: "2xl", md: "5rem" }}
         fontWeight="400"
@@ -128,7 +132,6 @@ const PortfolioSection = () => {
         OUR WORK PORTFOLIO
       </Text>
 
-      {/* Portfolio Grid */}
       <Grid
         templateColumns={{
           base: "repeat(2, 1fr)",
@@ -139,111 +142,116 @@ const PortfolioSection = () => {
         maxW="container.xl"
       >
         {portfolioImages.map((item, index) => (
-          <GridItem
+          <Skeleton
+            isLoaded={!isLoading}
             key={index}
-            position="relative"
-            overflow="hidden"
             borderRadius="xl"
-            boxShadow="lg"
-            _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
-            onMouseEnter={() => handleMouseEnter(index, item.gallery)}
-            onMouseLeave={handleMouseLeave}
-            onTouchStart={() => handleTouchStart(index, item.gallery)}
-            onTouchEnd={handleTouchEnd}
-            onClick={() => handleImageClick(item.gallery, 0)}
-            cursor="pointer"
+            overflow="hidden"
+            fadeDuration={0.4}
           >
-            {/* Hover Slider */}
-            {activeIndex === index && swiperReady === index ? (
-              <Swiper
-                modules={[Autoplay, EffectFade]}
-                spaceBetween={10}
-                slidesPerView={1}
-                autoplay={{ delay: 1000, disableOnInteraction: false }}
-                loop
-                effect={'fade'}
-                style={{ width: "100%", height: "100%" }}
-              >
-                {item.gallery.map((src, idx) => (
-                  <SwiperSlide key={idx}>
-                    <Image
-                      src={src}
-                      alt={`${item.title} - ${idx + 1}`}
-                      loading="lazy"
-                      className="swiper-lazy"
-                      w="full"
-                      h="auto"
-                      objectFit="cover"
-                    />
-                    <LoadingScreen delay={100} />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            ) : (
-              // Default Thumbnail
-              <Box>
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  loading="lazy"
-                  w="full"
-                  h="auto"
-                  objectFit="cover"
-                  className="swiper-lazy"
-                />
-              </Box>
-            )}
-
-            {/* Title Overlay */}
-            < Flex
-              position="absolute"
-              top={{ base: 1, md: 5 }}
-              left={0}
-              w="full"
-              color="white"
-              py={2}
-              justify="center"
-              opacity={0.8}
-              align="center"
+            <GridItem
+              key={index}
+              position="relative"
+              overflow="hidden"
+              borderRadius="xl"
+              boxShadow="lg"
+              _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
+              onMouseEnter={() => handleMouseEnter(index, item.gallery)}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={() => handleTouchStart(index, item.gallery)}
+              onTouchEnd={handleTouchEnd}
+              onClick={() => handleImageClick(item.gallery, 0)}
+              cursor="pointer"
             >
-              <Text
-                fontSize={{ base: "md", md: "2xl" }}
-                fontWeight={{ base: "900", md: "400" }}
-                textAlign="center"
-                fontFamily="arialBlack"
-                textTransform="uppercase"
-              >
-                {item.title}
-              </Text>
-            </Flex>
 
-            {/* See More Label */}
-            <Flex
-              position="absolute"
-              bottom={{ base: 2, md: 8 }}
-              left={0}
-              w="full"
-              color="white"
-              py={2}
-              justify="center"
-              align="center"
-              opacity={0.8}
-            >
-              <Text
-                fontSize={{ base: "sm", md: "xl" }}
-                textAlign="center"
-                fontFamily="heading"
-                textTransform="lowercase"
+              {activeIndex === index && swiperReady === index ? (
+                <Swiper
+                  modules={[Autoplay, EffectFade]}
+                  spaceBetween={10}
+                  slidesPerView={1}
+                  autoplay={{ delay: 1000, disableOnInteraction: false }}
+                  loop
+                  effect={'fade'}
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  {item.gallery.map((src, idx) => (
+                    <SwiperSlide key={idx}>
+                      <Image
+                        src={src}
+                        alt={`${item.title} - ${idx + 1}`}
+                        loading="lazy"
+                        className="swiper-lazy"
+                        w="full"
+                        h="auto"
+                        objectFit="cover"
+                      />
+                      <LoadingScreen delay={100} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <Box>
+                  <Image
+                    src={item.src}
+                    alt={item.title}
+                    loading="lazy"
+                    w="full"
+                    h="auto"
+                    objectFit="cover"
+                    className="swiper-lazy"
+                  />
+                </Box>
+              )}
+
+              < Flex
+                position="absolute"
+                top={{ base: 1, md: 5 }}
+                left={0}
+                w="full"
+                color="white"
+                py={2}
+                justify="center"
+                opacity={0.8}
+                align="center"
               >
-                See More
-              </Text>
-            </Flex>
-          </GridItem>
+                <Text
+                  fontSize={{ base: "md", md: "2xl" }}
+                  fontWeight={{ base: "900", md: "400" }}
+                  textAlign="center"
+                  fontFamily="arialBlack"
+                  textTransform="uppercase"
+                >
+                  {item.title}
+                </Text>
+              </Flex>
+
+              {/* See More Label */}
+              <Flex
+                position="absolute"
+                bottom={{ base: 2, md: 8 }}
+                left={0}
+                w="full"
+                color="white"
+                py={2}
+                justify="center"
+                align="center"
+                opacity={0.8}
+              >
+                <Text
+                  fontSize={{ base: "sm", md: "xl" }}
+                  textAlign="center"
+                  fontFamily="heading"
+                  textTransform="lowercase"
+                >
+                  See More
+                </Text>
+              </Flex>
+            </GridItem>
+          </Skeleton>
         )
         )}
       </Grid>
 
-      {/* Modal for Gallery */}
       <Modal
         isOpen={isOpen}
         onClose={() => {
@@ -255,9 +263,7 @@ const PortfolioSection = () => {
       >
         <ModalOverlay />
         <ModalContent boxShadow="none" borderRadius="lg" w="container.md" overflow="hidden" bg="white" p={4}>
-
           <Box position="relative" w="container">
-            {/* Swiper for Modal Gallery */}
             <Swiper
               initialSlide={initialSlide}
               effect={'fade'}
