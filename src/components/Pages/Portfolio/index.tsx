@@ -213,13 +213,13 @@ const PortfolioSection = () => {
                 </Box>
               )}
 
-              < Flex
+              <Flex
                 position="absolute"
                 top={{ base: 1, md: 5 }}
                 left={0}
                 w="full"
                 color="white"
-                py={2}
+                p={2}
                 justify="center"
                 opacity={0.8}
                 align="center"
@@ -230,6 +230,7 @@ const PortfolioSection = () => {
                   textAlign="center"
                   fontFamily="arialBlack"
                   textTransform="uppercase"
+                  lineHeight="20px"
                 >
                   {item.title}
                 </Text>
