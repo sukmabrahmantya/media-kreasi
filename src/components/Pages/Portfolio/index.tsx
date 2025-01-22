@@ -71,11 +71,21 @@ const PortfolioSection = () => {
     onOpen();
   };
 
-  const handleMouseEnter = (index: number) => {
+  const handleMouseEnter = (index: number, gallery: string[]) => {
     if (isMobile) return;
 
     setActiveIndex(index);
-    setSwiperReady(index)
+
+    Promise.all(
+      gallery.slice(0, 5).map((src) => {
+        const img = new window.Image();
+        img.src = src;
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      })
+    ).then(() => setSwiperReady(index));
   };
 
   const handleMouseLeave = () => {
@@ -85,7 +95,7 @@ const PortfolioSection = () => {
     setSwiperReady(null);
   };
 
-  const handleTouchStart = (index: number) => {
+  const handleTouchStart = (index: number, gallery: string[]) => {
     if (!isMobile) return;
 
     console.log("masuk sini 1")
@@ -96,7 +106,18 @@ const PortfolioSection = () => {
     }
 
     setActiveIndex(index);
-    setSwiperReady(index)
+    Promise.all(
+      gallery.slice(0, 5).map((src) => {
+        const img = new window.Image();
+        img.src = src;
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      })
+    )
+      .then(() => setSwiperReady(index))
+      .catch((_) => setSwiperReady(null));
   };
 
   const handleTouchEnd = () => {
@@ -144,9 +165,9 @@ const PortfolioSection = () => {
               borderRadius="xl"
               boxShadow="lg"
               _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
-              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseEnter={() => handleMouseEnter(index, item.gallery)}
               onMouseLeave={handleMouseLeave}
-              onTouchStart={() => handleTouchStart(index)}
+              onTouchStart={() => handleTouchStart(index, item.gallery)}
               onTouchEnd={handleTouchEnd}
               onClick={() => handleImageClick(item.gallery, 0)}
               cursor="pointer"
@@ -188,7 +209,6 @@ const PortfolioSection = () => {
                     h="auto"
                     objectFit="cover"
                     className="swiper-lazy"
-                    borderRadius="xl"
                   />
                 </Box>
               )}
