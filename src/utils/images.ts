@@ -75,7 +75,7 @@ export const portfolioImages = [
     ]
   },
   {
-    title: "Booth & Backdrop",
+    title: "Booth Backdrop",
     src: "/images/tumb-booth.webp",
     gallery: [
       "/images/booth/1.webp",
