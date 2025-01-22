@@ -71,21 +71,11 @@ const PortfolioSection = () => {
     onOpen();
   };
 
-  const handleMouseEnter = (index: number, gallery: string[]) => {
+  const handleMouseEnter = (index: number) => {
     if (isMobile) return;
 
     setActiveIndex(index);
-
-    Promise.all(
-      gallery.map((src) => {
-        const img = new window.Image();
-        img.src = src;
-        return new Promise((resolve) => {
-          img.onload = resolve;
-          img.onerror = resolve;
-        });
-      })
-    ).then(() => setSwiperReady(index));
+    setSwiperReady(index)
   };
 
   const handleMouseLeave = () => {
@@ -95,20 +85,18 @@ const PortfolioSection = () => {
     setSwiperReady(null);
   };
 
-  const handleTouchStart = (index: number, gallery: string[]) => {
+  const handleTouchStart = (index: number) => {
     if (!isMobile) return;
 
+    console.log("masuk sini 1")
+
+    if (activeIndex !== null && activeIndex !== index) {
+      setActiveIndex(null);
+      setSwiperReady(null);
+    }
+
     setActiveIndex(index);
-    Promise.all(
-      gallery.map((src) => {
-        const img = new window.Image();
-        img.src = src;
-        return new Promise((resolve) => {
-          img.onload = resolve;
-          img.onerror = resolve;
-        });
-      })
-    ).then(() => setSwiperReady(index));
+    setSwiperReady(index)
   };
 
   const handleTouchEnd = () => {
@@ -156,9 +144,9 @@ const PortfolioSection = () => {
               borderRadius="xl"
               boxShadow="lg"
               _hover={{ transform: "scale(1.05)", transition: "0.3s ease-in-out" }}
-              onMouseEnter={() => handleMouseEnter(index, item.gallery)}
+              onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
-              onTouchStart={() => handleTouchStart(index, item.gallery)}
+              onTouchStart={() => handleTouchStart(index)}
               onTouchEnd={handleTouchEnd}
               onClick={() => handleImageClick(item.gallery, 0)}
               cursor="pointer"
@@ -174,9 +162,10 @@ const PortfolioSection = () => {
                   effect={'fade'}
                   style={{ width: "100%", height: "100%" }}
                 >
-                  {item.gallery.map((src, idx) => (
+                  {item.gallery.slice(0, 5).map((src, idx) => (
                     <SwiperSlide key={idx}>
                       <Image
+                        borderRadius="xl"
                         src={src}
                         alt={`${item.title} - ${idx + 1}`}
                         loading="lazy"
@@ -199,6 +188,7 @@ const PortfolioSection = () => {
                     h="auto"
                     objectFit="cover"
                     className="swiper-lazy"
+                    borderRadius="xl"
                   />
                 </Box>
               )}
